@@ -1,0 +1,21 @@
+---
+import Layout from '@/layouts/Layout.astro';
+import Header from '@/components/layout/Header.astro';
+import Footer from '@/components/layout/Footer.astro';
+import Hero from '@/components/sections/Hero.astro';
+import Manifesto from '@/components/sections/Manifesto.astro';
+import Projects from '@/components/sections/Projects.astro';
+import CTA from '@/components/sections/CTA.astro';
+---
+
+<Layout>
+  <!-- Main Container -->
+  <main class="w-full max-w-[1400px] bg-[#F5F5F3] rounded-[2.5rem] shadow-2xl relative flex flex-col overflow-hidden">
+    <Header />
+    <Hero />
+    <Manifesto />
+    <Projects />
+    <CTA />
+    <Footer />
+  </main>
+</Layout>

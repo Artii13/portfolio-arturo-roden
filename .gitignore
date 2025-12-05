@@ -1,0 +1,32 @@
+# Dependencias
+node_modules/
+.npm
+package-lock.json
+
+# Build de Astro
+dist/
+.astro/
+
+# Archivos de sistema
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+
+# IDEs
+.vscode/
+.idea/
+
+# Variables de entorno
+.env
+.env.local
+.env.production
+
+# Logs
+*.log
+npm-debug.log*
+
+# Archivos temporales
+*.tmp
+.vercel

@@ -1,0 +1,27 @@
+---
+import { links } from '@/data/projects';
+---
+
+<section class="lg:px-16 xl:px-24 px-8 pb-12 reveal-scale">
+  <div class="relative w-full rounded-[2rem] bg-gradient-to-br from-indigo-600 to-purple-600 overflow-hidden px-8 py-16 md:px-16 md:py-20 text-center">
+    <div class="absolute inset-0 grain-bg opacity-10"></div>
+    <div class="relative z-10 max-w-3xl mx-auto">
+      <h3 class="text-3xl md:text-4xl font-medium tracking-tight text-white leading-tight mb-4">
+        Consulta gratuita de 30 minutos.
+      </h3>
+      <p class="text-xl text-indigo-200 font-medium mb-6">
+        Sin PowerPoints. Sin promesas vacías.
+      </p>
+      <p class="text-lg text-indigo-100 mb-10 leading-relaxed">
+        Solo números, ejemplos reales y un plan claro para hacer que tu tecnología trabaje para ti.
+      </p>
+      <a 
+        href={links.calendar}
+        class="inline-flex items-center gap-3 bg-white text-indigo-600 px-10 py-4 rounded-full text-sm font-semibold uppercase tracking-widest hover:bg-gray-100 hover:scale-105 transition-all shadow-2xl"
+      >
+        <i data-lucide="calendar" class="w-5 h-5"></i>
+        Agendar Consulta Gratuita
+      </a>
+    </div>
+  </div>
+</section>
