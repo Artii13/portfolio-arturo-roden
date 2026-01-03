@@ -1,5 +1,5 @@
 ---
-// GridBackground Component - 3D Parallax Grid Effect
+// GridBackground Component - Efecto Linterna (Grid solo visible alrededor del cursor)
 ---
 
 <div id="grid-background" class="grid-container">
@@ -13,41 +13,34 @@
     left: 0;
     width: 100vw;
     height: 100vh;
-    z-index: -1;
+    z-index: 1;
     pointer-events: none;
-    will-change: transform;
-    perspective: 1000px;
+    overflow: hidden;
   }
-  
+
   #grid-canvas {
     width: 100%;
     height: 100%;
-    will-change: transform;
-    transform-style: preserve-3d;
+    /* El canvas empieza con mask centrado - invisible hasta que mueves el mouse */
+    -webkit-mask-image: radial-gradient(400px circle at 50% 50%, black, transparent);
+    mask-image: radial-gradient(400px circle at 50% 50%, black, transparent);
   }
 </style>
 
 <script is:inline>
 (function() {
-  // Esperar a que el DOM esté listo
   document.addEventListener('DOMContentLoaded', function() {
     const canvas = document.getElementById('grid-canvas');
     if (!canvas) return;
     
     const ctx = canvas.getContext('2d');
     let width, height;
-    let mouseX = 0.5;
-    let mouseY = 0.5;
-    let targetMouseX = 0.5;
-    let targetMouseY = 0.5;
-    let gridOpacity = 0.08;
-    let gridColor = { r: 42, g: 42, b: 42 }; // #2A2A2A
-    let targetGridColor = { r: 42, g: 42, b: 42 };
-    let isLightMode = true;
     
     // Configuración del grid
-    const gridSize = 60;
-    const dotRadius = 1.5;
+    const gridSize = 50;
+    const dotRadius = 2;
+    const gridColor = 'rgba(80, 80, 80, 0.7)';
+    const lineColor = 'rgba(80, 80, 80, 0.35)';
     
     function resize() {
       const dpr = window.devicePixelRatio || 1;
@@ -58,125 +51,79 @@
       canvas.style.width = width + 'px';
       canvas.style.height = height + 'px';
       ctx.scale(dpr, dpr);
-    }
-    
-    function lerp(a, b, t) {
-      return a + (b - a) * t;
+      draw(); // Redibujar al cambiar tamaño
     }
     
     function draw() {
       // Limpiar canvas
       ctx.clearRect(0, 0, width, height);
       
-      // Suavizar movimiento del mouse
-      mouseX = lerp(mouseX, targetMouseX, 0.05);
-      mouseY = lerp(mouseY, targetMouseY, 0.05);
+      const cols = Math.ceil(width / gridSize) + 1;
+      const rows = Math.ceil(height / gridSize) + 1;
       
-      // Suavizar transición de color
-      gridColor.r = lerp(gridColor.r, targetGridColor.r, 0.03);
-      gridColor.g = lerp(gridColor.g, targetGridColor.g, 0.03);
-      gridColor.b = lerp(gridColor.b, targetGridColor.b, 0.03);
-      
-      // Calcular rotación 3D basada en posición del mouse
-      const rotateX = (mouseY - 0.5) * 8; // -4 a 4 grados
-      const rotateY = (mouseX - 0.5) * 8; // -4 a 4 grados
-      
-      // Aplicar transformación 3D al canvas
-      canvas.style.transform = `rotateX(${rotateX}deg) rotateY(${rotateY}deg)`;
-      
-      // Calcular offset de parallax
-      const offsetX = (mouseX - 0.5) * 20;
-      const offsetY = (mouseY - 0.5) * 20;
-      
-      // Dibujar grid de puntos
-      ctx.fillStyle = `rgba(${Math.round(gridColor.r)}, ${Math.round(gridColor.g)}, ${Math.round(gridColor.b)}, ${gridOpacity})`;
-      
-      const cols = Math.ceil(width / gridSize) + 2;
-      const rows = Math.ceil(height / gridSize) + 2;
-      
-      for (let i = -1; i < cols; i++) {
-        for (let j = -1; j < rows; j++) {
-          const x = i * gridSize + offsetX;
-          const y = j * gridSize + offsetY;
-          
-          // Efecto de profundidad sutil
-          const distFromCenter = Math.sqrt(
-            Math.pow((x / width) - 0.5, 2) + 
-            Math.pow((y / height) - 0.5, 2)
-          );
-          const depthScale = 1 - distFromCenter * 0.2;
-          
-          ctx.beginPath();
-          ctx.arc(x, y, dotRadius * depthScale, 0, Math.PI * 2);
-          ctx.fill();
-        }
-      }
-      
-      // Dibujar líneas horizontales sutiles
-      ctx.strokeStyle = `rgba(${Math.round(gridColor.r)}, ${Math.round(gridColor.g)}, ${Math.round(gridColor.b)}, ${gridOpacity * 0.5})`;
-      ctx.lineWidth = 0.5;
-      
-      for (let j = 0; j < rows; j++) {
-        const y = j * gridSize + offsetY;
+      // Dibujar líneas horizontales
+      ctx.strokeStyle = lineColor;
+      ctx.lineWidth = 0.8;
+      for (let j = 0; j <= rows; j++) {
+        const y = j * gridSize;
         ctx.beginPath();
         ctx.moveTo(0, y);
         ctx.lineTo(width, y);
         ctx.stroke();
       }
       
-      // Dibujar líneas verticales sutiles
-      for (let i = 0; i < cols; i++) {
-        const x = i * gridSize + offsetX;
+      // Dibujar líneas verticales
+      for (let i = 0; i <= cols; i++) {
+        const x = i * gridSize;
         ctx.beginPath();
         ctx.moveTo(x, 0);
         ctx.lineTo(x, height);
         ctx.stroke();
       }
       
-      requestAnimationFrame(draw);
+      // Dibujar grid de puntos (encima de las líneas)
+      ctx.fillStyle = gridColor;
+      for (let i = 0; i <= cols; i++) {
+        for (let j = 0; j <= rows; j++) {
+          const x = i * gridSize;
+          const y = j * gridSize;
+          
+          ctx.beginPath();
+          ctx.arc(x, y, dotRadius, 0, Math.PI * 2);
+          ctx.fill();
+        }
+      }
     }
     
-    // Mouse move handler con throttle
-    let mouseMoveTimeout;
+    // Actualizar posición del mask cuando mueves el mouse
     document.addEventListener('mousemove', function(e) {
-      if (mouseMoveTimeout) return;
-      mouseMoveTimeout = setTimeout(function() {
-        targetMouseX = e.clientX / window.innerWidth;
-        targetMouseY = e.clientY / window.innerHeight;
-        mouseMoveTimeout = null;
-      }, 16); // ~60fps
+      const mouseX = e.clientX;
+      const mouseY = e.clientY;
+      
+      // Actualizar el mask para seguir el cursor
+      const maskValue = `radial-gradient(400px circle at ${mouseX}px ${mouseY}px, black, transparent)`;
+      canvas.style.maskImage = maskValue;
+      canvas.style.webkitMaskImage = maskValue;
     });
     
-    // Función para cambiar modo (llamada desde animations.js)
-    window.setGridMode = function(mode) {
-      if (mode === 'dark') {
-        targetGridColor = { r: 245, g: 245, b: 220 }; // #F5F5DC
-        gridOpacity = 0.06;
-        isLightMode = false;
-      } else {
-        targetGridColor = { r: 42, g: 42, b: 42 }; // #2A2A2A
-        gridOpacity = 0.08;
-        isLightMode = true;
-      }
-    };
+    // Ocultar el grid cuando el mouse sale de la ventana
+    document.addEventListener('mouseleave', function() {
+      canvas.style.maskImage = 'radial-gradient(0px circle at 50% 50%, black, transparent)';
+      canvas.style.webkitMaskImage = 'radial-gradient(0px circle at 50% 50%, black, transparent)';
+    });
     
-    // Función para interpolar el modo del grid
-    window.setGridProgress = function(progress) {
-      // progress: 0 = light, 1 = dark
-      const lightColor = { r: 42, g: 42, b: 42 };
-      const darkColor = { r: 245, g: 245, b: 220 };
-      
-      targetGridColor.r = lerp(lightColor.r, darkColor.r, progress);
-      targetGridColor.g = lerp(lightColor.g, darkColor.g, progress);
-      targetGridColor.b = lerp(lightColor.b, darkColor.b, progress);
-      gridOpacity = lerp(0.08, 0.06, progress);
-    };
+    // Mostrar el grid cuando el mouse entra a la ventana
+    document.addEventListener('mouseenter', function(e) {
+      const mouseX = e.clientX;
+      const mouseY = e.clientY;
+      const maskValue = `radial-gradient(400px circle at ${mouseX}px ${mouseY}px, black, transparent)`;
+      canvas.style.maskImage = maskValue;
+      canvas.style.webkitMaskImage = maskValue;
+    });
     
     // Inicializar
     resize();
     window.addEventListener('resize', resize);
-    draw();
   });
 })();
 </script>
-

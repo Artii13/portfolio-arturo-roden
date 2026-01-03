@@ -237,37 +237,6 @@ document.addEventListener("DOMContentLoaded", function() {
       });
     }
     
-    // Sincronizar el grid background con la transición (claro → oscuro)
-    ScrollTrigger.create({
-      trigger: transitionSection,
-      start: "top bottom",
-      end: "bottom top",
-      scrub: 1,
-      onUpdate: function(self) {
-        // Actualizar el color del grid según el progreso
-        if (typeof window.setGridProgress === 'function') {
-          window.setGridProgress(self.progress);
-        }
-      }
-    });
-  }
-  
-  // Transición inversa (oscuro → claro) para la sección de proyectos
-  var transitionReverse = document.getElementById('transition-section-reverse');
-  
-  if (transitionReverse) {
-    ScrollTrigger.create({
-      trigger: transitionReverse,
-      start: "top bottom",
-      end: "bottom top",
-      scrub: 1,
-      onUpdate: function(self) {
-        // Invertir el progreso: 1 → 0 (de oscuro a claro)
-        if (typeof window.setGridProgress === 'function') {
-          window.setGridProgress(1 - self.progress);
-        }
-      }
-    });
   }
   
   // ========================================
