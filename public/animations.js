@@ -56,46 +56,64 @@ document.addEventListener("DOMContentLoaded", function() {
   // SCROLL REVEALS
   // ========================================
   
-  // Reveal Up
+  // Reveal Up - con transiciones suaves optimizadas
   gsap.utils.toArray('.reveal-up').forEach(function(element) {
+    // Preparar el elemento para animación suave
+    element.style.willChange = 'transform, opacity';
+    
     gsap.to(element, {
       y: 0,
       opacity: 1,
-      duration: 1,
-      ease: "power3.out",
+      duration: 1.2,
+      ease: "power2.out",
       scrollTrigger: {
         trigger: element,
-        start: "top 85%",
+        start: "top 90%",
+        end: "top 60%",
         toggleActions: "play none none none"
+      },
+      onComplete: function() {
+        // Limpiar will-change después de la animación
+        element.style.willChange = 'auto';
       }
     });
   });
   
   // Fade In
   gsap.utils.toArray('.reveal-fade').forEach(function(element) {
+    element.style.willChange = 'opacity';
+    
     gsap.to(element, {
       opacity: 1,
       duration: 1.2,
       ease: "power2.out",
       scrollTrigger: {
         trigger: element,
-        start: "top 85%",
+        start: "top 90%",
         toggleActions: "play none none none"
+      },
+      onComplete: function() {
+        element.style.willChange = 'auto';
       }
     });
   });
   
   // Scale In
   gsap.utils.toArray('.reveal-scale').forEach(function(element) {
+    element.style.willChange = 'transform, opacity';
+    
     gsap.to(element, {
       scale: 1,
       opacity: 1,
       duration: 1,
-      ease: "back.out(1.7)",
+      ease: "power2.out",
       scrollTrigger: {
         trigger: element,
-        start: "top 85%",
+        start: "top 90%",
         toggleActions: "play none none none"
+      },
+      onComplete: function() {
+        element.style.willChange = 'auto';
       }
     });
   });
@@ -187,10 +205,101 @@ document.addEventListener("DOMContentLoaded", function() {
   }
   
   // ========================================
+  // HERO → MANIFESTO COLOR TRANSITION
+  // ========================================
+  
+  var heroSection = document.getElementById('hero-section');
+  var transitionSection = document.getElementById('transition-section');
+  var heroName = document.getElementById('hero-name');
+  
+  if (heroSection && transitionSection) {
+    
+    // Animación del texto "ARTURO RÓDEN" - escala y transparencia
+    if (heroName) {
+      heroName.style.willChange = 'transform, opacity';
+      
+      gsap.to(heroName, {
+        scale: 1.15,
+        opacity: 0.1,
+        ease: "none",
+        scrollTrigger: {
+          trigger: heroSection,
+          start: "bottom bottom",
+          end: "bottom top",
+          scrub: 1,
+          onLeave: function() {
+            heroName.style.willChange = 'auto';
+          },
+          onEnterBack: function() {
+            heroName.style.willChange = 'transform, opacity';
+          }
+        }
+      });
+    }
+    
+    // Sincronizar el grid background con la transición (claro → oscuro)
+    ScrollTrigger.create({
+      trigger: transitionSection,
+      start: "top bottom",
+      end: "bottom top",
+      scrub: 1,
+      onUpdate: function(self) {
+        // Actualizar el color del grid según el progreso
+        if (typeof window.setGridProgress === 'function') {
+          window.setGridProgress(self.progress);
+        }
+      }
+    });
+  }
+  
+  // Transición inversa (oscuro → claro) para la sección de proyectos
+  var transitionReverse = document.getElementById('transition-section-reverse');
+  
+  if (transitionReverse) {
+    ScrollTrigger.create({
+      trigger: transitionReverse,
+      start: "top bottom",
+      end: "bottom top",
+      scrub: 1,
+      onUpdate: function(self) {
+        // Invertir el progreso: 1 → 0 (de oscuro a claro)
+        if (typeof window.setGridProgress === 'function') {
+          window.setGridProgress(1 - self.progress);
+        }
+      }
+    });
+  }
+  
+  // ========================================
   // REFRESH SCROLL TRIGGER
   // ========================================
+  
+  // Refresh después de que el DOM esté listo
   setTimeout(function() {
     ScrollTrigger.refresh();
-  }, 2000);
+  }, 100);
+  
+  // Refresh después de que las imágenes carguen
+  window.addEventListener('load', function() {
+    setTimeout(function() {
+      ScrollTrigger.refresh();
+    }, 500);
+  });
+  
+  // Refresh adicional para imágenes lazy-loaded
+  var images = document.querySelectorAll('img[loading="lazy"]');
+  var loadedCount = 0;
+  images.forEach(function(img) {
+    if (img.complete) {
+      loadedCount++;
+    } else {
+      img.addEventListener('load', function() {
+        loadedCount++;
+        if (loadedCount === images.length) {
+          ScrollTrigger.refresh();
+        }
+      });
+    }
+  });
   
 });

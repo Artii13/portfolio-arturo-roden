@@ -6,16 +6,42 @@ import Hero from '@/components/sections/Hero.astro';
 import Manifesto from '@/components/sections/Manifesto.astro';
 import Projects from '@/components/sections/Projects.astro';
 import CTA from '@/components/sections/CTA.astro';
+import GridBackground from '@/components/effects/GridBackground.astro';
 ---
 
 <Layout>
-  <!-- Main Container -->
-  <main class="w-full max-w-[1400px] bg-[#F5F5F3] rounded-[2.5rem] shadow-2xl relative flex flex-col overflow-hidden">
-    <Header />
-    <Hero />
-    <Manifesto />
-    <Projects />
-    <CTA />
-    <Footer />
+  <!-- Grid Background 3D -->
+  <GridBackground />
+  
+  <!-- Main Container con transición de color -->
+  <main id="main-container" class="w-full max-w-[1400px] rounded-[2.5rem] shadow-2xl relative flex flex-col overflow-hidden transition-colors duration-100">
+    
+    <!-- Sección Hero con fondo claro -->
+    <div id="hero-section" class="bg-[#F5F5F3] rounded-t-[2.5rem]">
+      <Header />
+      <Hero />
+    </div>
+    
+    <!-- Sección de Transición (espaciador para el efecto) -->
+    <div id="transition-section" class="relative h-[50vh] overflow-hidden">
+      <div id="transition-bg" class="absolute inset-0 bg-gradient-to-b from-[#F5F5F3] to-[#0A0A0A]"></div>
+    </div>
+    
+    <!-- Sección oscura -->
+    <div id="dark-section" class="bg-[#0A0A0A]">
+      <Manifesto />
+    </div>
+    
+    <!-- Transición inversa (oscuro → claro) -->
+    <div id="transition-section-reverse" class="relative h-[30vh] overflow-hidden">
+      <div class="absolute inset-0 bg-gradient-to-b from-[#0A0A0A] to-[#F5F5F3]"></div>
+    </div>
+    
+    <!-- Sección clara para proyectos -->
+    <div id="light-section" class="bg-[#F5F5F3]">
+      <Projects />
+      <CTA />
+      <Footer />
+    </div>
   </main>
 </Layout>
