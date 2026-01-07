@@ -224,7 +224,7 @@ body {
   /* En mobile: animaciones más sutiles */
   .reveal-up,
   [data-animate="fade"] {
-    transform: translateY(30px); /* Menos desplazamiento que desktop */
+    transform: translateY(30px);
     transition: 
       opacity 0.5s ease-out,
       transform 0.5s ease-out;
@@ -236,6 +236,24 @@ body {
     transition: 
       opacity 0.4s ease-out,
       transform 0.4s ease-out;
+  }
+  
+  /* Espaciados más compactos en móvil */
+  section {
+    padding-top: 2rem;
+    padding-bottom: 2rem;
+  }
+  
+  /* Botones más compactos */
+  .btn-primary,
+  a[class*="rounded-full"][class*="px-"] {
+    padding: 0.625rem 1.25rem;
+    font-size: 0.7rem;
+  }
+  
+  /* Cards con bordes menos redondeados */
+  [class*="rounded-[2rem]"] {
+    border-radius: 1.25rem;
   }
 }
 
