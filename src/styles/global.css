@@ -257,6 +257,85 @@ body {
   }
 }
 
+/* ============================================
+   3D TILT - SOLO DESKTOP
+   ============================================ */
+
+@media (min-width: 1024px) {
+  [data-tilt] {
+    transform-style: preserve-3d;
+    will-change: transform;
+  }
+  
+  /* Efecto de profundidad sutil en elementos hijos */
+  [data-tilt] img,
+  [data-tilt] .tilt-inner {
+    transform: translateZ(30px);
+    transition: transform 0.3s ease-out;
+  }
+}
+
+/* En móvil/tablet, asegurar que no hay transformaciones */
+@media (max-width: 1023px) {
+  [data-tilt] {
+    transform: none !important;
+  }
+}
+
+/* ============================================
+   CARDS PROYECTOS - MÓVIL MÁS COMPACTAS
+   ============================================ */
+
+@media (max-width: 768px) {
+  
+  /* Cards de proyectos más pequeñas y centradas */
+  [data-tilt] {
+    max-width: 300px !important;
+    margin-left: auto !important;
+    margin-right: auto !important;
+  }
+  
+  /* Aspecto más cuadrado en móvil */
+  [data-tilt][class*="aspect-square"] {
+    aspect-ratio: 1 / 1 !important;
+  }
+  
+  /* Reducir gap entre proyectos */
+  #proyectos > div.flex {
+    gap: 3rem !important;
+  }
+  
+  /* Títulos de proyectos más pequeños */
+  #proyectos h3 {
+    font-size: 1.75rem !important;
+    margin-bottom: 1rem !important;
+  }
+  
+  /* Descripción más compacta */
+  #proyectos p {
+    font-size: 0.95rem !important;
+    line-height: 1.5 !important;
+    margin-bottom: 1.25rem !important;
+  }
+  
+  /* Botones de proyectos más compactos */
+  #proyectos a[class*="rounded-full"] {
+    padding: 0.75rem 1.5rem !important;
+    font-size: 0.65rem !important;
+  }
+  
+  /* Reducir padding de sección */
+  #proyectos {
+    padding-top: 1.5rem !important;
+    padding-bottom: 3rem !important;
+  }
+  
+  /* Encabezado de sección */
+  #proyectos .mb-16 {
+    margin-bottom: 2rem !important;
+  }
+}
+
 /* ===================================
    Reduced Motion
    =================================== */

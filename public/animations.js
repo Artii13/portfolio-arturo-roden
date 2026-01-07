@@ -16,7 +16,7 @@
     preloaderDuration: 1500,  // ms que se muestra el preloader
     enableLenis: true,        // smooth scroll
     enableFadeIn: true,       // elementos aparecen al scroll
-    enableTilt: false,        // 3D tilt (desactivado por ahora)
+    enableTilt: true,         // 3D tilt en cards (solo desktop)
     debug: true               // logs en consola
   };
   
@@ -173,6 +173,77 @@
   }
   
   // ============================================
+  // 3D TILT - SOLO DESKTOP
+  // ============================================
+  
+  function initTilt() {
+    // Solo activar en desktop (no móvil/tablet)
+    if (!CONFIG.enableTilt) {
+      log('⚠️ Tilt desactivado en config');
+      return;
+    }
+    
+    if (isMobile() || window.innerWidth < 1024) {
+      log('📱 Tilt desactivado en móvil/tablet');
+      return;
+    }
+    
+    var tiltElements = document.querySelectorAll('[data-tilt]');
+    
+    if (tiltElements.length === 0) {
+      log('⚠️ No se encontraron elementos con data-tilt');
+      return;
+    }
+    
+    log('🎯 Elementos tilt encontrados: ' + tiltElements.length);
+    
+    tiltElements.forEach(function(element) {
+      
+      // Configuración del efecto
+      var maxTilt = 8;        // Grados máximos de inclinación
+      var perspective = 1000;  // Perspectiva 3D
+      var speed = 400;         // Velocidad de transición (ms)
+      
+      // Aplicar estilos base
+      element.style.transformStyle = 'preserve-3d';
+      element.style.transition = 'transform ' + speed + 'ms ease-out';
+      
+      // Mouse enter - preparar perspectiva
+      element.addEventListener('mouseenter', function() {
+        element.style.transition = 'transform 150ms ease-out';
+      });
+      
+      // Mouse move - calcular inclinación
+      element.addEventListener('mousemove', function(e) {
+        var rect = element.getBoundingClientRect();
+        var centerX = rect.left + rect.width / 2;
+        var centerY = rect.top + rect.height / 2;
+        
+        var mouseX = e.clientX - centerX;
+        var mouseY = e.clientY - centerY;
+        
+        var rotateX = (mouseY / (rect.height / 2)) * -maxTilt;
+        var rotateY = (mouseX / (rect.width / 2)) * maxTilt;
+        
+        element.style.transform = 
+          'perspective(' + perspective + 'px) ' +
+          'rotateX(' + rotateX + 'deg) ' +
+          'rotateY(' + rotateY + 'deg) ' +
+          'scale3d(1.02, 1.02, 1.02)';
+      });
+      
+      // Mouse leave - resetear suavemente
+      element.addEventListener('mouseleave', function() {
+        element.style.transition = 'transform ' + speed + 'ms ease-out';
+        element.style.transform = 'perspective(' + perspective + 'px) rotateX(0deg) rotateY(0deg) scale3d(1, 1, 1)';
+      });
+      
+    });
+    
+    log('✅ Tilt inicializado (' + tiltElements.length + ' elementos)');
+  }
+  
+  // ============================================
   // INICIALIZACIÓN
   // ============================================
   
@@ -191,6 +262,7 @@
       setTimeout(function() {
         initLenis();
         initFadeIn();
+        initTilt();
         log('');
         log('========================================');
         log('✅ INICIALIZACIÓN COMPLETA');
