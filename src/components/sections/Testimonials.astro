@@ -5,27 +5,24 @@ const testimonials = [
     quote: "El agente de IA que implementó Arturo responde más rápido que cualquier comercial. Hemos triplicado las visitas agendadas sin contratar a nadie más.",
     name: "María García",
     role: "Directora Comercial",
-    company: "Inmobiliaria Costa",
     sector: "Inmobiliaria"
   },
   {
     quote: "Antes perdíamos el 40% de llamadas fuera de horario. Ahora el asistente las atiende todas y agenda citas automáticamente. Game changer.",
     name: "Dr. Carlos Ruiz",
     role: "Director",
-    company: "Clínica Dental Sonrisa",
     sector: "Salud"
   },
   {
     quote: "La automatización que diseñó nos ahorra 25 horas semanales en tareas repetitivas. El ROI fue inmediato.",
     name: "Laura Martínez",
     role: "CEO",
-    company: "TechStart Solutions",
     sector: "Tecnología"
   }
 ];
 ---
 
-<section id="testimonios" class="py-16 md:py-24 bg-[#0a0a0a]">
+<section id="testimonios" class="pt-20 pb-32 md:pt-32 md:pb-40 bg-[#0a0a0a]">
   <div class="max-w-6xl mx-auto px-6">
     
     <!-- Header -->
@@ -40,7 +37,7 @@ const testimonials = [
     <div class="grid grid-cols-1 md:grid-cols-3 gap-6 md:gap-8">
       {testimonials.map((testimonial, index) => (
         <div 
-          class="bg-[#111111] border border-white/5 rounded-2xl p-6 md:p-8 reveal-up hover:border-indigo-500/20 transition-colors duration-300"
+          class="bg-[#111111] border border-white/5 rounded-2xl p-6 md:p-8 flex flex-col min-h-[320px] reveal-up hover:border-indigo-500/20 transition-colors duration-300"
           style={`transition-delay: ${index * 0.1}s`}
         >
           <!-- Quote icon -->
@@ -50,16 +47,15 @@ const testimonials = [
             </svg>
           </div>
           
-          <!-- Quote -->
-          <blockquote class="text-gray-300 text-base leading-relaxed mb-6">
+          <!-- Quote - con flex-grow para empujar firma abajo -->
+          <blockquote class="text-gray-300 text-base leading-relaxed flex-grow">
             "{testimonial.quote}"
           </blockquote>
           
-          <!-- Author -->
-          <div class="border-t border-white/5 pt-5">
+          <!-- Author - siempre al fondo -->
+          <div class="border-t border-white/5 pt-5 mt-6">
             <p class="text-white font-medium text-sm">{testimonial.name}</p>
             <p class="text-gray-400 text-xs mt-0.5">{testimonial.role}</p>
-            <p class="text-gray-500 text-xs">{testimonial.company}</p>
             
             <!-- Sector badge -->
             <span class="inline-block mt-3 px-3 py-1 bg-white/5 text-gray-400 text-[0.65rem] uppercase tracking-wider rounded-full">
