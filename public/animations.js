@@ -142,11 +142,12 @@
       return;
     }
     
-    // Configuración del observer
+    // Configuración del observer - adaptada para móvil y desktop
+    var isMobileDevice = window.innerWidth < 768;
     var observerOptions = {
       root: null,                    // viewport
-      threshold: 0.15,               // 15% visible para activar
-      rootMargin: '0px 0px -80px 0px' // Activa 80px antes del borde inferior
+      threshold: isMobileDevice ? 0.05 : 0.15,  // Móvil: 5%, Desktop: 15%
+      rootMargin: isMobileDevice ? '0px 0px -30px 0px' : '0px 0px -80px 0px'
     };
     
     var observer = new IntersectionObserver(function(entries) {
