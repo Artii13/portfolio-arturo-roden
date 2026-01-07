@@ -68,17 +68,28 @@ const canonicalURL = new URL(Astro.url.pathname, Astro.site);
     
     <slot />
     
-    <!-- Scripts (defer for performance) -->
-    <script defer src="https://cdn.jsdelivr.net/npm/lucide@0.263.1/dist/umd/lucide.min.js"></script>
-    <script defer src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
-    <script defer src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
+    <!-- Footer fijo -->
+    <div class="fixed bottom-4 left-4 z-50 pointer-events-none hidden lg:block">
+      <p class="text-[0.65rem] text-gray-500 font-medium tracking-wide">
+        Portfolio v2.0 · <span class="text-indigo-600">Arturo Róden</span> · 2024
+      </p>
+    </div>
     
+    <!-- ============================================
+         SCRIPTS SIMPLIFICADOS
+         Sin GSAP - Solo Lenis + Lucide + Animaciones
+         ============================================ -->
+    
+    <!-- Lenis Smooth Scroll -->
+    <script is:inline src="https://unpkg.com/lenis@1.1.13/dist/lenis.min.js"></script>
+    
+    <!-- Lucide Icons -->
+    <script is:inline src="https://unpkg.com/lucide@latest/dist/umd/lucide.min.js"></script>
     <script is:inline>
-      document.addEventListener('DOMContentLoaded', function() {
-        if (typeof lucide !== 'undefined') lucide.createIcons();
-      });
+      if (window.lucide) lucide.createIcons();
     </script>
     
+    <!-- Animaciones Custom -->
     <script is:inline src="/animations.js"></script>
   </body>
 </html>
