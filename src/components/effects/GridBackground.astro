@@ -25,11 +25,24 @@
     -webkit-mask-image: radial-gradient(400px circle at 50% 50%, black, transparent);
     mask-image: radial-gradient(400px circle at 50% 50%, black, transparent);
   }
+
+  /* Ocultar en móvil/tablet - no hay hover ni ratón */
+  @media (max-width: 1024px) {
+    .grid-container {
+      display: none !important;
+    }
+  }
 </style>
 
 <script is:inline>
 (function() {
   document.addEventListener('DOMContentLoaded', function() {
+    // No ejecutar en móvil/tablet (no tiene sentido sin ratón)
+    if (window.innerWidth < 1024 || 'ontouchstart' in window) {
+      console.log('📱 Grid 3D desactivado en móvil');
+      return;
+    }
+    
     const canvas = document.getElementById('grid-canvas');
     if (!canvas) return;
     
