@@ -82,7 +82,7 @@ body {
 }
 
 /* ===================================
-   PRELOADER - GLITCH EFFECT
+   PRELOADER - GLITCH EFFECT INTENSO
    =================================== */
 
 /* Variables del efecto glitch */
@@ -91,7 +91,7 @@ body {
   --glitch-color-2: #ff00ff;  /* Magenta */
   --glitch-bg: #0a0a0a;
   --glitch-text: #ffffff;
-  --glitch-duration: 1.5s;
+  --glitch-duration: 2s;
 }
 
 #preloader {
@@ -105,6 +105,7 @@ body {
   align-items: center;
   justify-content: center;
   z-index: 9999;
+  overflow: hidden;
 }
 
 .glitch-wrapper {
@@ -114,18 +115,55 @@ body {
   justify-content: center;
 }
 
-/* Texto principal con glitch */
-.glitch-text {
-  position: relative;
-  font-size: clamp(1.5rem, 5vw, 3rem);
-  font-weight: 700;
-  color: var(--glitch-text);
-  letter-spacing: 0.15em;
-  text-transform: uppercase;
-  animation: glitch-skew var(--glitch-duration) ease-in-out infinite;
+/* Scanlines - ANTES del texto */
+.glitch-wrapper::before {
+  content: '';
+  position: absolute;
+  top: -50%;
+  left: -50%;
+  width: 200%;
+  height: 200%;
+  background: repeating-linear-gradient(
+    0deg,
+    transparent,
+    transparent 2px,
+    rgba(0, 255, 255, 0.03) 2px,
+    rgba(0, 255, 255, 0.03) 4px
+  );
+  pointer-events: none;
+  opacity: 0.6;
+  animation: scanlines 0.08s linear infinite;
+  z-index: 10;
 }
 
-/* Pseudo-elementos para RGB split */
+/* Flash blanco ocasional */
+.glitch-wrapper::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: white;
+  pointer-events: none;
+  opacity: 0;
+  animation: glitch-flash var(--glitch-duration) linear infinite;
+  z-index: 5;
+}
+
+/* Texto principal con glitch - MÁS GRANDE */
+.glitch-text {
+  position: relative;
+  font-size: clamp(2rem, 8vw, 4.5rem);
+  font-weight: 800;
+  color: var(--glitch-text);
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  animation: glitch-skew var(--glitch-duration) linear infinite;
+  text-shadow: 0 0 10px rgba(255, 255, 255, 0.3);
+}
+
+/* Pseudo-elementos para RGB split - MÁS INTENSOS */
 .glitch-text::before,
 .glitch-text::after {
   content: attr(data-text);
@@ -134,172 +172,374 @@ body {
   left: 0;
   width: 100%;
   height: 100%;
-  opacity: 0.8;
 }
 
-/* Capa Cyan (izquierda) */
+/* Capa Cyan (izquierda) - AGRESIVA */
 .glitch-text::before {
   color: var(--glitch-color-1);
-  animation: glitch-left var(--glitch-duration) ease-in-out infinite;
-  clip-path: polygon(0 0, 100% 0, 100% 35%, 0 35%);
+  animation: glitch-cyan var(--glitch-duration) linear infinite;
   z-index: -1;
 }
 
-/* Capa Magenta (derecha) */
+/* Capa Magenta (derecha) - AGRESIVA */
 .glitch-text::after {
   color: var(--glitch-color-2);
-  animation: glitch-right var(--glitch-duration) ease-in-out infinite;
-  clip-path: polygon(0 65%, 100% 65%, 100% 100%, 0 100%);
-  z-index: -1;
+  animation: glitch-magenta var(--glitch-duration) linear infinite;
+  z-index: -2;
 }
 
-/* Animación principal - skew/vibración */
+/* ============================================
+   ANIMACIÓN PRINCIPAL - SKEW + TRANSLATE
+   ============================================ */
+
 @keyframes glitch-skew {
   0%, 100% {
-    transform: skewX(0deg);
+    transform: skewX(0deg) translateX(0);
   }
-  5% {
-    transform: skewX(-2deg);
+  /* Ráfaga 1 - Intensa */
+  2% {
+    transform: skewX(5deg) translateX(-3px);
+  }
+  4% {
+    transform: skewX(-4deg) translateX(4px);
+  }
+  6% {
+    transform: skewX(6deg) translateX(-2px);
+  }
+  8% {
+    transform: skewX(-3deg) translateX(3px);
   }
   10% {
-    transform: skewX(2deg);
+    transform: skewX(0deg) translateX(0);
   }
-  15% {
-    transform: skewX(0deg);
+  /* Calma */
+  11%, 24% {
+    transform: skewX(0deg) translateX(0);
   }
-  20% {
-    transform: skewX(-1deg);
-  }
+  /* Ráfaga 2 - Media */
   25% {
-    transform: skewX(1deg);
+    transform: skewX(-4deg) translateX(2px);
   }
-  30%, 70% {
-    transform: skewX(0deg);
+  27% {
+    transform: skewX(3deg) translateX(-3px);
   }
-  75% {
-    transform: skewX(-1deg);
+  29% {
+    transform: skewX(-2deg) translateX(1px);
   }
-  80% {
-    transform: skewX(1deg);
+  31% {
+    transform: skewX(0deg) translateX(0);
   }
+  /* Calma larga */
+  32%, 54% {
+    transform: skewX(0deg) translateX(0);
+  }
+  /* Ráfaga 3 - Muy intensa */
+  55% {
+    transform: skewX(-6deg) translateX(4px);
+  }
+  57% {
+    transform: skewX(5deg) translateX(-5px);
+  }
+  59% {
+    transform: skewX(-4deg) translateX(3px);
+  }
+  61% {
+    transform: skewX(6deg) translateX(-4px);
+  }
+  63% {
+    transform: skewX(-3deg) translateX(2px);
+  }
+  65% {
+    transform: skewX(0deg) translateX(0);
+  }
+  /* Calma */
+  66%, 84% {
+    transform: skewX(0deg) translateX(0);
+  }
+  /* Ráfaga 4 - Final */
   85% {
-    transform: skewX(0deg);
+    transform: skewX(3deg) translateX(-2px);
   }
-  90% {
-    transform: skewX(-0.5deg);
+  87% {
+    transform: skewX(-4deg) translateX(3px);
   }
-  95% {
-    transform: skewX(0.5deg);
+  89% {
+    transform: skewX(2deg) translateX(-1px);
+  }
+  91% {
+    transform: skewX(0deg) translateX(0);
   }
 }
 
-/* Animación capa izquierda (cyan) */
-@keyframes glitch-left {
+/* ============================================
+   CAPA CYAN - CON CLIP-PATH ANIMADO
+   ============================================ */
+
+@keyframes glitch-cyan {
   0%, 100% {
     transform: translateX(0);
     opacity: 0;
+    clip-path: inset(0 0 100% 0);
   }
-  5% {
-    transform: translateX(-3px);
-    opacity: 0.6;
+  /* Ráfaga 1 */
+  2% {
+    transform: translateX(-12px);
+    opacity: 0.9;
+    clip-path: inset(10% 0 70% 0);
   }
-  10% {
-    transform: translateX(2px);
-    opacity: 0.4;
-  }
-  15% {
-    transform: translateX(-4px);
+  4% {
+    transform: translateX(8px);
     opacity: 0.7;
+    clip-path: inset(40% 0 30% 0);
   }
-  20% {
+  6% {
+    transform: translateX(-15px);
+    opacity: 1;
+    clip-path: inset(5% 0 80% 0);
+  }
+  8% {
+    transform: translateX(10px);
+    opacity: 0.8;
+    clip-path: inset(60% 0 20% 0);
+  }
+  10% {
+    transform: translateX(0);
+    opacity: 0;
+    clip-path: inset(0 0 100% 0);
+  }
+  /* Calma */
+  11%, 24% {
     transform: translateX(0);
     opacity: 0;
   }
-  50% {
-    transform: translateX(-2px);
-    opacity: 0.5;
+  /* Ráfaga 2 */
+  25% {
+    transform: translateX(-10px);
+    opacity: 0.8;
+    clip-path: inset(20% 0 50% 0);
   }
+  27% {
+    transform: translateX(14px);
+    opacity: 0.9;
+    clip-path: inset(50% 0 30% 0);
+  }
+  29% {
+    transform: translateX(-8px);
+    opacity: 0.6;
+    clip-path: inset(70% 0 10% 0);
+  }
+  31% {
+    transform: translateX(0);
+    opacity: 0;
+    clip-path: inset(0 0 100% 0);
+  }
+  /* Calma larga */
+  32%, 54% {
+    transform: translateX(0);
+    opacity: 0;
+  }
+  /* Ráfaga 3 - Muy intensa */
   55% {
-    transform: translateX(3px);
-    opacity: 0.3;
+    transform: translateX(-18px);
+    opacity: 1;
+    clip-path: inset(0% 0 85% 0);
   }
-  60% {
+  57% {
+    transform: translateX(15px);
+    opacity: 0.9;
+    clip-path: inset(30% 0 40% 0);
+  }
+  59% {
+    transform: translateX(-12px);
+    opacity: 1;
+    clip-path: inset(55% 0 25% 0);
+  }
+  61% {
+    transform: translateX(18px);
+    opacity: 0.8;
+    clip-path: inset(15% 0 65% 0);
+  }
+  63% {
+    transform: translateX(-10px);
+    opacity: 0.7;
+    clip-path: inset(75% 0 5% 0);
+  }
+  65% {
+    transform: translateX(0);
+    opacity: 0;
+    clip-path: inset(0 0 100% 0);
+  }
+  /* Calma */
+  66%, 84% {
     transform: translateX(0);
     opacity: 0;
   }
-  80% {
-    transform: translateX(-2px);
-    opacity: 0.4;
-  }
+  /* Ráfaga 4 */
   85% {
+    transform: translateX(-8px);
+    opacity: 0.7;
+    clip-path: inset(25% 0 55% 0);
+  }
+  87% {
+    transform: translateX(12px);
+    opacity: 0.9;
+    clip-path: inset(60% 0 20% 0);
+  }
+  89% {
+    transform: translateX(-6px);
+    opacity: 0.5;
+    clip-path: inset(10% 0 75% 0);
+  }
+  91% {
     transform: translateX(0);
     opacity: 0;
+    clip-path: inset(0 0 100% 0);
   }
 }
 
-/* Animación capa derecha (magenta) */
-@keyframes glitch-right {
+/* ============================================
+   CAPA MAGENTA - CON CLIP-PATH ANIMADO
+   ============================================ */
+
+@keyframes glitch-magenta {
   0%, 100% {
     transform: translateX(0);
     opacity: 0;
+    clip-path: inset(100% 0 0 0);
   }
-  5% {
-    transform: translateX(3px);
-    opacity: 0.5;
+  /* Ráfaga 1 */
+  2% {
+    transform: translateX(14px);
+    opacity: 0.8;
+    clip-path: inset(65% 0 15% 0);
+  }
+  4% {
+    transform: translateX(-10px);
+    opacity: 0.9;
+    clip-path: inset(25% 0 55% 0);
+  }
+  6% {
+    transform: translateX(16px);
+    opacity: 1;
+    clip-path: inset(80% 0 5% 0);
+  }
+  8% {
+    transform: translateX(-12px);
+    opacity: 0.7;
+    clip-path: inset(35% 0 45% 0);
   }
   10% {
-    transform: translateX(-2px);
-    opacity: 0.3;
+    transform: translateX(0);
+    opacity: 0;
+    clip-path: inset(100% 0 0 0);
   }
-  15% {
-    transform: translateX(4px);
-    opacity: 0.6;
-  }
-  20% {
+  /* Calma */
+  11%, 24% {
     transform: translateX(0);
     opacity: 0;
   }
-  45% {
-    transform: translateX(2px);
-    opacity: 0.4;
+  /* Ráfaga 2 */
+  25% {
+    transform: translateX(12px);
+    opacity: 0.9;
+    clip-path: inset(45% 0 35% 0);
   }
-  50% {
-    transform: translateX(-3px);
-    opacity: 0.5;
+  27% {
+    transform: translateX(-15px);
+    opacity: 0.8;
+    clip-path: inset(70% 0 15% 0);
   }
+  29% {
+    transform: translateX(10px);
+    opacity: 0.7;
+    clip-path: inset(20% 0 60% 0);
+  }
+  31% {
+    transform: translateX(0);
+    opacity: 0;
+    clip-path: inset(100% 0 0 0);
+  }
+  /* Calma larga */
+  32%, 54% {
+    transform: translateX(0);
+    opacity: 0;
+  }
+  /* Ráfaga 3 - Muy intensa */
   55% {
+    transform: translateX(18px);
+    opacity: 1;
+    clip-path: inset(85% 0 0% 0);
+  }
+  57% {
+    transform: translateX(-16px);
+    opacity: 0.9;
+    clip-path: inset(40% 0 35% 0);
+  }
+  59% {
+    transform: translateX(14px);
+    opacity: 1;
+    clip-path: inset(10% 0 70% 0);
+  }
+  61% {
+    transform: translateX(-18px);
+    opacity: 0.9;
+    clip-path: inset(60% 0 20% 0);
+  }
+  63% {
+    transform: translateX(12px);
+    opacity: 0.8;
+    clip-path: inset(30% 0 50% 0);
+  }
+  65% {
+    transform: translateX(0);
+    opacity: 0;
+    clip-path: inset(100% 0 0 0);
+  }
+  /* Calma */
+  66%, 84% {
     transform: translateX(0);
     opacity: 0;
   }
-  75% {
-    transform: translateX(2px);
-    opacity: 0.3;
+  /* Ráfaga 4 */
+  85% {
+    transform: translateX(10px);
+    opacity: 0.8;
+    clip-path: inset(50% 0 30% 0);
   }
-  80% {
+  87% {
+    transform: translateX(-14px);
+    opacity: 0.9;
+    clip-path: inset(15% 0 65% 0);
+  }
+  89% {
+    transform: translateX(8px);
+    opacity: 0.6;
+    clip-path: inset(80% 0 5% 0);
+  }
+  91% {
     transform: translateX(0);
     opacity: 0;
+    clip-path: inset(100% 0 0 0);
   }
 }
 
-/* Scanlines overlay sutil */
-.glitch-wrapper::after {
-  content: '';
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  background: repeating-linear-gradient(
-    0deg,
-    transparent,
-    transparent 2px,
-    rgba(0, 0, 0, 0.1) 2px,
-    rgba(0, 0, 0, 0.1) 4px
-  );
-  pointer-events: none;
-  opacity: 0.3;
-  animation: scanlines 0.1s linear infinite;
+/* ============================================
+   FLASH BLANCO OCASIONAL
+   ============================================ */
+
+@keyframes glitch-flash {
+  0%, 100% { opacity: 0; }
+  3% { opacity: 0.12; }
+  4% { opacity: 0; }
+  56% { opacity: 0.15; }
+  58% { opacity: 0; }
+  86% { opacity: 0.08; }
+  87% { opacity: 0; }
 }
+
+/* ============================================
+   SCANLINES
+   ============================================ */
 
 @keyframes scanlines {
   0% {
@@ -310,7 +550,10 @@ body {
   }
 }
 
-/* Estado estable antes del fade out */
+/* ============================================
+   ESTADO ESTABLE - ANTES DEL FADE OUT
+   ============================================ */
+
 #preloader.stabilizing .glitch-text {
   animation: none;
 }
@@ -321,39 +564,108 @@ body {
   opacity: 0;
 }
 
+#preloader.stabilizing .glitch-wrapper::before,
 #preloader.stabilizing .glitch-wrapper::after {
   animation: none;
   opacity: 0;
 }
 
-/* Móvil: efecto más sutil */
+/* ============================================
+   MÓVIL - EFECTO REDUCIDO PERO VISIBLE
+   ============================================ */
+
 @media (max-width: 768px) {
   .glitch-text {
-    font-size: 1.3rem;
-    letter-spacing: 0.1em;
+    font-size: clamp(1.5rem, 6vw, 2.5rem);
+    letter-spacing: 0.15em;
   }
   
-  .glitch-text::before,
-  .glitch-text::after {
-    opacity: 0.5;
+  /* Reducir desplazamientos en móvil */
+  @keyframes glitch-cyan {
+    0%, 100% {
+      transform: translateX(0);
+      opacity: 0;
+    }
+    2%, 6% {
+      transform: translateX(-8px);
+      opacity: 0.8;
+      clip-path: inset(10% 0 70% 0);
+    }
+    4%, 8% {
+      transform: translateX(6px);
+      opacity: 0.7;
+      clip-path: inset(60% 0 20% 0);
+    }
+    10%, 54% {
+      transform: translateX(0);
+      opacity: 0;
+    }
+    55%, 63% {
+      transform: translateX(-10px);
+      opacity: 0.9;
+      clip-path: inset(30% 0 50% 0);
+    }
+    65%, 100% {
+      transform: translateX(0);
+      opacity: 0;
+    }
   }
   
-  .glitch-wrapper::after {
-    opacity: 0.15;
+  @keyframes glitch-magenta {
+    0%, 100% {
+      transform: translateX(0);
+      opacity: 0;
+    }
+    2%, 6% {
+      transform: translateX(8px);
+      opacity: 0.7;
+      clip-path: inset(60% 0 20% 0);
+    }
+    4%, 8% {
+      transform: translateX(-6px);
+      opacity: 0.8;
+      clip-path: inset(20% 0 60% 0);
+    }
+    10%, 54% {
+      transform: translateX(0);
+      opacity: 0;
+    }
+    55%, 63% {
+      transform: translateX(10px);
+      opacity: 0.9;
+      clip-path: inset(50% 0 30% 0);
+    }
+    65%, 100% {
+      transform: translateX(0);
+      opacity: 0;
+    }
+  }
+  
+  .glitch-wrapper::before {
+    opacity: 0.3;
   }
 }
 
-/* Reduced motion: sin glitch */
+/* ============================================
+   REDUCED MOTION - SIN GLITCH
+   ============================================ */
+
 @media (prefers-reduced-motion: reduce) {
   .glitch-text,
   .glitch-text::before,
   .glitch-text::after,
+  .glitch-wrapper::before,
   .glitch-wrapper::after {
     animation: none !important;
   }
   
   .glitch-text::before,
-  .glitch-text::after {
+  .glitch-text::after,
+  .glitch-wrapper::after {
+    opacity: 0 !important;
+  }
+  
+  .glitch-wrapper::before {
     opacity: 0 !important;
   }
 }

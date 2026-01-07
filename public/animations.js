@@ -13,8 +13,8 @@
   // ============================================
   
   var CONFIG = {
-    preloaderGlitch: 1500,    // ms de efecto glitch
-    preloaderStable: 300,     // ms estable antes de fade
+    preloaderGlitch: 2000,    // ms de efecto glitch (2s)
+    preloaderStable: 400,     // ms estable antes de fade
     preloaderFade: 500,       // ms de fade out
     enableLenis: true,        // smooth scroll
     enableFadeIn: true,       // elementos aparecen al scroll
