@@ -13,7 +13,9 @@
   // ============================================
   
   var CONFIG = {
-    preloaderDuration: 1500,  // ms que se muestra el preloader
+    preloaderGlitch: 1500,    // ms de efecto glitch
+    preloaderStable: 300,     // ms estable antes de fade
+    preloaderFade: 500,       // ms de fade out
     enableLenis: true,        // smooth scroll
     enableFadeIn: true,       // elementos aparecen al scroll
     enableTilt: true,         // 3D tilt en cards (solo desktop)
@@ -35,7 +37,7 @@
   }
   
   // ============================================
-  // PRELOADER
+  // PRELOADER - GLITCH EFFECT
   // ============================================
   
   function hidePreloader() {
@@ -45,15 +47,28 @@
       return;
     }
     
-    log('🎬 Ocultando preloader...');
+    log('🎬 Glitch effect iniciado...');
     
-    preloader.style.transition = 'opacity 0.5s ease-out';
-    preloader.style.opacity = '0';
-    
+    // Fase 1: Glitch effect (ya corriendo via CSS)
     setTimeout(function() {
-      preloader.style.display = 'none';
-      log('✅ Preloader oculto');
-    }, 500);
+      // Fase 2: Estabilizar texto (parar animaciones)
+      log('🎬 Estabilizando...');
+      preloader.classList.add('stabilizing');
+      
+      setTimeout(function() {
+        // Fase 3: Fade out
+        log('🎬 Fade out...');
+        preloader.style.transition = 'opacity ' + CONFIG.preloaderFade + 'ms ease-out';
+        preloader.style.opacity = '0';
+        
+        setTimeout(function() {
+          preloader.style.display = 'none';
+          log('✅ Preloader oculto');
+        }, CONFIG.preloaderFade);
+        
+      }, CONFIG.preloaderStable);
+      
+    }, CONFIG.preloaderGlitch);
   }
   
   // ============================================
@@ -252,24 +267,23 @@
     log('📱 Mobile: ' + isMobile());
     log('📐 Width: ' + window.innerWidth + 'px');
     
-    // 1. Mostrar preloader por X tiempo, luego ocultarlo
-    log('⏳ Preloader visible por ' + CONFIG.preloaderDuration + 'ms...');
+    // Calcular duración total del preloader
+    var totalPreloaderTime = CONFIG.preloaderGlitch + CONFIG.preloaderStable + CONFIG.preloaderFade;
+    log('⏳ Preloader glitch: ' + CONFIG.preloaderGlitch + 'ms → estable: ' + CONFIG.preloaderStable + 'ms → fade: ' + CONFIG.preloaderFade + 'ms');
     
+    // Iniciar secuencia del preloader
+    hidePreloader();
+    
+    // Iniciar efectos después de que termine el preloader completo
     setTimeout(function() {
-      hidePreloader();
-      
-      // 2. Iniciar efectos después del preloader
-      setTimeout(function() {
-        initLenis();
-        initFadeIn();
-        initTilt();
-        log('');
-        log('========================================');
-        log('✅ INICIALIZACIÓN COMPLETA');
-        log('========================================');
-      }, 100);
-      
-    }, CONFIG.preloaderDuration);
+      initLenis();
+      initFadeIn();
+      initTilt();
+      log('');
+      log('========================================');
+      log('✅ INICIALIZACIÓN COMPLETA');
+      log('========================================');
+    }, totalPreloaderTime + 100);
   }
   
   // Ejecutar cuando DOM esté listo
