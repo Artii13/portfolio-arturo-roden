@@ -1,0 +1,75 @@
+---
+// Testimonials Section - Social Proof
+const testimonials = [
+  {
+    quote: "El agente de IA que implementó Arturo responde más rápido que cualquier comercial. Hemos triplicado las visitas agendadas sin contratar a nadie más.",
+    name: "María García",
+    role: "Directora Comercial",
+    company: "Inmobiliaria Costa",
+    sector: "Inmobiliaria"
+  },
+  {
+    quote: "Antes perdíamos el 40% de llamadas fuera de horario. Ahora el asistente las atiende todas y agenda citas automáticamente. Game changer.",
+    name: "Dr. Carlos Ruiz",
+    role: "Director",
+    company: "Clínica Dental Sonrisa",
+    sector: "Salud"
+  },
+  {
+    quote: "La automatización que diseñó nos ahorra 25 horas semanales en tareas repetitivas. El ROI fue inmediato.",
+    name: "Laura Martínez",
+    role: "CEO",
+    company: "TechStart Solutions",
+    sector: "Tecnología"
+  }
+];
+---
+
+<section id="testimonios" class="py-16 md:py-24 bg-[#0a0a0a]">
+  <div class="max-w-6xl mx-auto px-6">
+    
+    <!-- Header -->
+    <div class="text-center mb-12 md:mb-16 reveal-up">
+      <span class="text-gray-500 text-[0.65rem] font-semibold uppercase tracking-[0.25em]">Testimonios</span>
+      <h2 class="text-2xl md:text-3xl lg:text-4xl font-medium text-white mt-3 tracking-tight">
+        Lo que dicen mis clientes
+      </h2>
+    </div>
+    
+    <!-- Grid de testimonios -->
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-6 md:gap-8">
+      {testimonials.map((testimonial, index) => (
+        <div 
+          class="bg-[#111111] border border-white/5 rounded-2xl p-6 md:p-8 reveal-up hover:border-indigo-500/20 transition-colors duration-300"
+          style={`transition-delay: ${index * 0.1}s`}
+        >
+          <!-- Quote icon -->
+          <div class="text-indigo-500 mb-4">
+            <svg class="w-8 h-8 opacity-50" fill="currentColor" viewBox="0 0 24 24">
+              <path d="M14.017 21v-7.391c0-5.704 3.731-9.57 8.983-10.609l.995 2.151c-2.432.917-3.995 3.638-3.995 5.849h4v10h-9.983zm-14.017 0v-7.391c0-5.704 3.748-9.57 9-10.609l.996 2.151c-2.433.917-3.996 3.638-3.996 5.849h3.983v10h-9.983z"/>
+            </svg>
+          </div>
+          
+          <!-- Quote -->
+          <blockquote class="text-gray-300 text-base leading-relaxed mb-6">
+            "{testimonial.quote}"
+          </blockquote>
+          
+          <!-- Author -->
+          <div class="border-t border-white/5 pt-5">
+            <p class="text-white font-medium text-sm">{testimonial.name}</p>
+            <p class="text-gray-400 text-xs mt-0.5">{testimonial.role}</p>
+            <p class="text-gray-500 text-xs">{testimonial.company}</p>
+            
+            <!-- Sector badge -->
+            <span class="inline-block mt-3 px-3 py-1 bg-white/5 text-gray-400 text-[0.65rem] uppercase tracking-wider rounded-full">
+              {testimonial.sector}
+            </span>
+          </div>
+        </div>
+      ))}
+    </div>
+    
+  </div>
+</section>
+

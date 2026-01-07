@@ -3,8 +3,10 @@ import Layout from '@/layouts/Layout.astro';
 import Header from '@/components/layout/Header.astro';
 import Footer from '@/components/layout/Footer.astro';
 import Hero from '@/components/sections/Hero.astro';
+import Metrics from '@/components/sections/Metrics.astro';
 import Manifesto from '@/components/sections/Manifesto.astro';
 import Projects from '@/components/sections/Projects.astro';
+import Testimonials from '@/components/sections/Testimonials.astro';
 import CTA from '@/components/sections/CTA.astro';
 import GridBackground from '@/components/effects/GridBackground.astro';
 ---
@@ -22,16 +24,31 @@ import GridBackground from '@/components/effects/GridBackground.astro';
       <Hero />
     </div>
     
-    <!-- Sección Manifesto - Fondo claro para que la tarjeta oscura destaque -->
+    <!-- Sección Métricas - Fondo oscuro -->
+    <div id="metrics-section" class="bg-[#0a0a0a]">
+      <Metrics />
+    </div>
+    
+    <!-- Sección Manifesto - Fondo claro -->
     <div id="manifesto-section" class="bg-[#F5F5F3]">
       <Manifesto />
     </div>
     
-    <!-- Sección clara para proyectos - CAMBIO DIRECTO sin degradado -->
-    <div id="light-section" class="bg-[#F5F5F3]">
+    <!-- Sección Proyectos - Fondo claro -->
+    <div id="projects-section" class="bg-[#F5F5F3]">
       <Projects />
+    </div>
+    
+    <!-- Sección Testimonios - Fondo oscuro -->
+    <div id="testimonials-section" class="bg-[#0a0a0a]">
+      <Testimonials />
+    </div>
+    
+    <!-- Sección CTA y Footer - Fondo claro -->
+    <div id="cta-section" class="bg-[#F5F5F3]">
       <CTA />
       <Footer />
     </div>
+    
   </main>
 </Layout>
