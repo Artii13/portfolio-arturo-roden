@@ -2,20 +2,14 @@
 // GridBackground Component - Efecto Linterna (Grid solo visible alrededor del cursor)
 ---
 
-<div id="grid-background" class="grid-container">
+<div id="grid-background" class="grid-container fixed inset-0 z-[5] pointer-events-none overflow-hidden">
   <canvas id="grid-canvas"></canvas>
 </div>
 
 <style>
   .grid-container {
-    position: fixed;
-    top: 0;
-    left: 0;
     width: 100vw;
     height: 100vh;
-    z-index: 1;
-    pointer-events: none;
-    overflow: hidden;
   }
 
   #grid-canvas {

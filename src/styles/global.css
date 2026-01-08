@@ -883,3 +883,47 @@ body {
     transition: none !important;
   }
 }
+
+/* ===========================================
+   Z-INDEX SYSTEM - ÚNICA FUENTE DE VERDAD
+   =========================================== */
+
+/* Nivel 0: Decoraciones de fondo */
+.hero-float,
+.hero-decoration,
+.bg-decoration {
+  position: relative;
+  z-index: 0;
+}
+
+/* Nivel 5: Grid - INTERMEDIA */
+#grid-background,
+.grid-container {
+  z-index: 5 !important;
+  pointer-events: none;
+}
+
+/* Nivel 10: Contenido principal */
+.hero-content,
+.content-layer,
+.hero-image,
+.hero-avatar,
+section > *:not(.hero-float):not(.grid-container) {
+  position: relative;
+  z-index: 10;
+}
+
+/* Nivel 20: Interactivos */
+.btn,
+button,
+a:not(.nav-link) {
+  position: relative;
+  z-index: 20;
+}
+
+/* Nivel 50: Header */
+header,
+.navbar {
+  position: relative;
+  z-index: 50;
+}
