@@ -1,13 +1,13 @@
 ---
 // Tech Carousel - Stack Tecnológico
 const technologies = [
-  { name: 'n8n', type: 'icon', url: 'https://cdn.simpleicons.org/n8n/white' },
-  { name: 'OpenAI', type: 'icon', url: 'https://cdn.simpleicons.org/openai/white' },
-  { name: 'Make', type: 'icon', url: 'https://cdn.simpleicons.org/integromat/white' },
-  { name: 'Fireflies', type: 'text', text: 'Fireflies' },
-  { name: 'Retell AI', type: 'text', text: 'Retell' },
-  { name: 'Fathom', type: 'text', text: 'Fathom' },
-  { name: 'GoHighLevel', type: 'text', text: 'GHL' }
+  { name: 'n8n', image: 'https://storage.googleapis.com/msgsndr/7HqbY9s62tYUT4L8oXfz/media/67e964591870f469ed48761c.jpeg' },
+  { name: 'OpenAI', image: 'https://storage.googleapis.com/msgsndr/7HqbY9s62tYUT4L8oXfz/media/67e96459e519ed351f2a1136.jpeg' },
+  { name: 'Make', image: 'https://storage.googleapis.com/msgsndr/7HqbY9s62tYUT4L8oXfz/media/67e96459c5f22a727aaf7d20.jpeg' },
+  { name: 'Fireflies', image: 'https://storage.googleapis.com/msgsndr/7HqbY9s62tYUT4L8oXfz/media/67e96459379294805ee96880.jpeg' },
+  { name: 'Retell AI', image: 'https://storage.googleapis.com/msgsndr/7HqbY9s62tYUT4L8oXfz/media/67e96459c5f22a7499af7d1f.jpeg' },
+  { name: 'Fathom', image: 'https://storage.googleapis.com/msgsndr/7HqbY9s62tYUT4L8oXfz/media/67e964593792941bc4e96881.jpeg' },
+  { name: 'GoHighLevel', image: 'https://assets.cdn.filesafe.space/7HqbY9s62tYUT4L8oXfz/media/67e96459c5f22ac16faf7d21.jpeg' }
 ];
 ---
 
@@ -20,32 +20,22 @@ const technologies = [
         <div class="tech-carousel-content flex gap-6 animate-scroll">
           <!-- Primera copia -->
           {technologies.map((tech) => (
-            <div class="tech-card bg-white/5 border border-white/10 rounded-xl px-6 py-4 flex items-center justify-center flex-shrink-0">
-              {tech.type === 'icon' ? (
-                <img 
-                  src={tech.url} 
-                  alt={tech.name}
-                  class="h-8 w-auto"
-                  loading="lazy"
-                />
-              ) : (
-                <span class="text-white font-semibold text-lg">{tech.text}</span>
-              )}
+            <div class="platform-item">
+              <img 
+                src={tech.image} 
+                alt={tech.name}
+                loading="lazy"
+              />
             </div>
           ))}
           <!-- Segunda copia (duplicado para loop infinito) -->
           {technologies.map((tech) => (
-            <div class="tech-card bg-white/5 border border-white/10 rounded-xl px-6 py-4 flex items-center justify-center flex-shrink-0">
-              {tech.type === 'icon' ? (
-                <img 
-                  src={tech.url} 
-                  alt={tech.name}
-                  class="h-8 w-auto"
-                  loading="lazy"
-                />
-              ) : (
-                <span class="text-white font-semibold text-lg">{tech.text}</span>
-              )}
+            <div class="platform-item">
+              <img 
+                src={tech.image} 
+                alt={tech.name}
+                loading="lazy"
+              />
             </div>
           ))}
         </div>
@@ -72,18 +62,27 @@ const technologies = [
     animation-play-state: paused;
   }
   
-  .tech-card {
-    min-width: 80px;
-    transition: transform 0.3s ease, background 0.3s ease;
+  .platform-item {
+    flex-shrink: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-width: 120px;
   }
   
-  .tech-card:hover {
-    transform: scale(1.05);
-    background: rgba(255, 255, 255, 0.08) !important;
-  }
-  
-  .tech-card img {
+  .platform-item img {
+    max-width: 100%;
+    max-height: 70px;
     object-fit: contain;
+    background-color: white;
+    padding: 15px;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    transition: transform 0.3s ease;
+  }
+  
+  .platform-item img:hover {
+    transform: scale(1.05);
   }
   
   @keyframes scroll-infinite {
@@ -105,17 +104,13 @@ const technologies = [
       padding: 0 1rem;
     }
     
-    .tech-card {
-      min-width: 70px;
-      padding: 0.75rem 1rem;
+    .platform-item {
+      min-width: 100px;
     }
     
-    .tech-card img {
-      height: 28px;
-    }
-    
-    .tech-card span {
-      font-size: 0.875rem;
+    .platform-item img {
+      max-height: 60px;
+      padding: 12px;
     }
   }
 </style>
