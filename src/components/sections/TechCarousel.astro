@@ -1,5 +1,5 @@
 ---
-// Tech Carousel - Tecnologías que uso
+// Tech Carousel - Stack Tecnológico
 const technologies = [
   { name: 'n8n', image: 'https://storage.googleapis.com/msgsndr/7HqbY9s62tYUT4L8oXfz/media/67e964591870f469ed48761c.jpeg' },
   { name: 'OpenAI', image: 'https://storage.googleapis.com/msgsndr/7HqbY9s62tYUT4L8oXfz/media/67e96459e519ed351f2a1136.jpeg' },
@@ -13,7 +13,7 @@ const technologies = [
 
 <section class="tech-section bg-[#0a0a12] py-16">
   <div class="max-w-7xl mx-auto px-4">
-    <p class="text-center text-gray-400 tracking-widest text-sm mb-8 uppercase">TECNOLOGÍA QUE USO</p>
+    <p class="text-center text-gray-400 tracking-widest text-sm mb-10 uppercase">STACK TECNOLÓGICO</p>
     
     <div class="tech-carousel-wrapper max-w-[900px] mx-auto">
       <div class="tech-carousel-track overflow-hidden">
@@ -21,15 +21,21 @@ const technologies = [
           <!-- Primera copia -->
           {technologies.map((tech) => (
             <div class="tech-card">
-              <img src={tech.image} alt={tech.name} />
-              <span>{tech.name}</span>
+              <img 
+                src={tech.image} 
+                alt={tech.name}
+                loading="lazy"
+              />
             </div>
           ))}
           <!-- Segunda copia (duplicado para loop infinito) -->
           {technologies.map((tech) => (
             <div class="tech-card">
-              <img src={tech.image} alt={tech.name} />
-              <span>{tech.name}</span>
+              <img 
+                src={tech.image} 
+                alt={tech.name}
+                loading="lazy"
+              />
             </div>
           ))}
         </div>
@@ -64,9 +70,8 @@ const technologies = [
     display: flex;
     align-items: center;
     justify-content: center;
-    gap: 0.75rem;
     flex-shrink: 0;
-    min-width: 160px;
+    min-width: 80px;
     transition: transform 0.3s ease, background 0.3s ease;
   }
   
@@ -76,17 +81,11 @@ const technologies = [
   }
   
   .tech-card img {
-    width: 24px;
-    height: 24px;
+    height: 48px;
+    width: auto;
+    max-width: 120px;
     object-fit: contain;
-    flex-shrink: 0;
-  }
-  
-  .tech-card span {
-    color: white;
-    font-weight: 500;
-    font-size: 0.875rem;
-    white-space: nowrap;
+    filter: brightness(0) invert(1);
   }
   
   @keyframes scroll-infinite {
@@ -109,17 +108,13 @@ const technologies = [
     }
     
     .tech-card {
-      min-width: 140px;
-      padding: 0.75rem 1.25rem;
+      min-width: 70px;
+      padding: 0.75rem 1rem;
     }
     
     .tech-card img {
-      width: 20px;
-      height: 20px;
-    }
-    
-    .tech-card span {
-      font-size: 0.75rem;
+      height: 36px;
+      max-width: 100px;
     }
   }
 </style>
