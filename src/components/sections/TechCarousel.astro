@@ -1,167 +1,125 @@
 ---
 // Tech Carousel - Tecnologías que uso
+const technologies = [
+  { name: 'n8n', image: 'https://storage.googleapis.com/msgsndr/7HqbY9s62tYUT4L8oXfz/media/67e964591870f469ed48761c.jpeg' },
+  { name: 'OpenAI', image: 'https://storage.googleapis.com/msgsndr/7HqbY9s62tYUT4L8oXfz/media/67e96459e519ed351f2a1136.jpeg' },
+  { name: 'Make', image: 'https://storage.googleapis.com/msgsndr/7HqbY9s62tYUT4L8oXfz/media/67e96459c5f22a727aaf7d20.jpeg' },
+  { name: 'Fireflies', image: 'https://storage.googleapis.com/msgsndr/7HqbY9s62tYUT4L8oXfz/media/67e96459379294805ee96880.jpeg' },
+  { name: 'Retell AI', image: 'https://storage.googleapis.com/msgsndr/7HqbY9s62tYUT4L8oXfz/media/67e96459c5f22a7499af7d1f.jpeg' },
+  { name: 'Fathom', image: 'https://storage.googleapis.com/msgsndr/7HqbY9s62tYUT4L8oXfz/media/67e964593792941bc4e96881.jpeg' },
+  { name: 'GoHighLevel', image: 'https://assets.cdn.filesafe.space/7HqbY9s62tYUT4L8oXfz/media/67e96459c5f22ac16faf7d21.jpeg' }
+];
 ---
 
-<section class="py-16 md:py-24 overflow-hidden">
-  <div class="container mx-auto px-6 mb-12">
-    <p class="text-center text-sm font-semibold uppercase tracking-[0.25em] text-gray-400">
-      Tecnología que uso
-    </p>
-  </div>
-  
-  <div class="platforms-carousel-container">
-    <div class="platforms-carousel">
-      <div class="platform-item">
-        <img src="https://storage.googleapis.com/msgsndr/7HqbY9s62tYUT4L8oXfz/media/67e964591870f469ed48761c.jpeg" alt="n8n">
-      </div>
-      <div class="platform-item">
-        <img src="https://storage.googleapis.com/msgsndr/7HqbY9s62tYUT4L8oXfz/media/67e96459e519ed351f2a1136.jpeg" alt="OpenAI">
-      </div>
-      <div class="platform-item">
-        <img src="https://storage.googleapis.com/msgsndr/7HqbY9s62tYUT4L8oXfz/media/67e96459c5f22a727aaf7d20.jpeg" alt="Make">
-      </div>
-      <div class="platform-item">
-        <img src="https://storage.googleapis.com/msgsndr/7HqbY9s62tYUT4L8oXfz/media/67e96459379294805ee96880.jpeg" alt="Fireflies">
-      </div>
-      <div class="platform-item">
-        <img src="https://storage.googleapis.com/msgsndr/7HqbY9s62tYUT4L8oXfz/media/67e96459c5f22a7499af7d1f.jpeg" alt="Retell AI">
-      </div>
-      <div class="platform-item">
-        <img src="https://storage.googleapis.com/msgsndr/7HqbY9s62tYUT4L8oXfz/media/67e964593792941bc4e96881.jpeg" alt="Fathom">
-      </div>
-      <div class="platform-item">
-        <img src="https://assets.cdn.filesafe.space/7HqbY9s62tYUT4L8oXfz/media/67e96459c5f22ac16faf7d21.jpeg" alt="GoHighLevel">
-      </div>
-      <!-- Duplicados para efecto infinito -->
-      <div class="platform-item">
-        <img src="https://storage.googleapis.com/msgsndr/7HqbY9s62tYUT4L8oXfz/media/67e964591870f469ed48761c.jpeg" alt="n8n">
-      </div>
-      <div class="platform-item">
-        <img src="https://storage.googleapis.com/msgsndr/7HqbY9s62tYUT4L8oXfz/media/67e96459e519ed351f2a1136.jpeg" alt="OpenAI">
-      </div>
-      <div class="platform-item">
-        <img src="https://storage.googleapis.com/msgsndr/7HqbY9s62tYUT4L8oXfz/media/67e96459c5f22a727aaf7d20.jpeg" alt="Make">
-      </div>
-      <div class="platform-item">
-        <img src="https://storage.googleapis.com/msgsndr/7HqbY9s62tYUT4L8oXfz/media/67e96459379294805ee96880.jpeg" alt="Fireflies">
+<section class="tech-section bg-[#0a0a12] py-16">
+  <div class="max-w-7xl mx-auto px-4">
+    <p class="text-center text-gray-400 tracking-widest text-sm mb-8 uppercase">TECNOLOGÍA QUE USO</p>
+    
+    <div class="tech-carousel-wrapper max-w-[900px] mx-auto">
+      <div class="tech-carousel-track overflow-hidden">
+        <div class="tech-carousel-content flex gap-6 animate-scroll">
+          <!-- Primera copia -->
+          {technologies.map((tech) => (
+            <div class="tech-card">
+              <img src={tech.image} alt={tech.name} />
+              <span>{tech.name}</span>
+            </div>
+          ))}
+          <!-- Segunda copia (duplicado para loop infinito) -->
+          {technologies.map((tech) => (
+            <div class="tech-card">
+              <img src={tech.image} alt={tech.name} />
+              <span>{tech.name}</span>
+            </div>
+          ))}
+        </div>
       </div>
     </div>
   </div>
 </section>
 
 <style>
-  .platforms-carousel-container {
-    width: 100%;
-    overflow: hidden;
-    position: relative;
-    /* Fade suave hacia transparente en ambos lados */
-    -webkit-mask-image: linear-gradient(
-      to right, 
-      transparent 0%, 
-      rgba(0,0,0,0.3) 5%,
-      rgba(0,0,0,0.7) 10%,
-      black 15%, 
-      black 85%, 
-      rgba(0,0,0,0.7) 90%,
-      rgba(0,0,0,0.3) 95%,
-      transparent 100%
-    );
-    mask-image: linear-gradient(
-      to right, 
-      transparent 0%, 
-      rgba(0,0,0,0.3) 5%,
-      rgba(0,0,0,0.7) 10%,
-      black 15%, 
-      black 85%, 
-      rgba(0,0,0,0.7) 90%,
-      rgba(0,0,0,0.3) 95%,
-      transparent 100%
-    );
+  .tech-section {
+    background-color: #0a0a12;
   }
   
-  .platforms-carousel {
-    display: flex;
-    gap: 24px;
-    animation: scroll 30s linear infinite;
-    padding: 20px 0;
+  .tech-carousel-track {
+    mask-image: linear-gradient(to right, transparent, black 10%, black 90%, transparent);
+    -webkit-mask-image: linear-gradient(to right, transparent, black 10%, black 90%, transparent);
   }
   
-  .platforms-carousel:hover {
+  .tech-carousel-content {
+    width: max-content;
+  }
+  
+  .tech-carousel-content:hover {
     animation-play-state: paused;
   }
   
-  .platform-item {
-    flex: 0 0 180px;
-    height: 90px;
+  .tech-card {
+    background: rgba(255, 255, 255, 0.05);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 12px;
+    padding: 1rem 1.5rem;
     display: flex;
     align-items: center;
     justify-content: center;
+    gap: 0.75rem;
+    flex-shrink: 0;
+    min-width: 160px;
+    transition: transform 0.3s ease, background 0.3s ease;
   }
   
-  .platform-item img {
-    max-width: 100%;
-    max-height: 60px;
+  .tech-card:hover {
+    transform: scale(1.05);
+    background: rgba(255, 255, 255, 0.08);
+  }
+  
+  .tech-card img {
+    width: 24px;
+    height: 24px;
     object-fit: contain;
-    background-color: rgba(255, 255, 255, 0.95);
-    padding: 12px 20px;
-    border-radius: 12px;
-    box-shadow: 0 4px 20px rgba(99, 102, 241, 0.15);
-    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    flex-shrink: 0;
   }
   
-  .platform-item img:hover {
-    transform: scale(1.08);
-    box-shadow: 0 8px 30px rgba(99, 102, 241, 0.25);
+  .tech-card span {
+    color: white;
+    font-weight: 500;
+    font-size: 0.875rem;
+    white-space: nowrap;
   }
   
-  @keyframes scroll {
+  @keyframes scroll-infinite {
     0% {
       transform: translateX(0);
     }
     100% {
-      transform: translateX(calc(-180px * 7 - 24px * 7));
+      transform: translateX(-50%);
     }
   }
   
+  .animate-scroll {
+    animation: scroll-infinite 25s linear infinite;
+  }
+  
   @media (max-width: 768px) {
-    .platform-item {
-      flex: 0 0 150px;
-      height: 80px;
+    .tech-carousel-wrapper {
+      max-width: 100%;
+      padding: 0 1rem;
     }
     
-    .platform-item img {
-      max-height: 50px;
-      padding: 10px 16px;
+    .tech-card {
+      min-width: 140px;
+      padding: 0.75rem 1.25rem;
     }
     
-    .platforms-carousel-container {
-      -webkit-mask-image: linear-gradient(
-        to right, 
-        transparent 0%, 
-        rgba(0,0,0,0.5) 8%,
-        black 15%, 
-        black 85%, 
-        rgba(0,0,0,0.5) 92%,
-        transparent 100%
-      );
-      mask-image: linear-gradient(
-        to right, 
-        transparent 0%, 
-        rgba(0,0,0,0.5) 8%,
-        black 15%, 
-        black 85%, 
-        rgba(0,0,0,0.5) 92%,
-        transparent 100%
-      );
+    .tech-card img {
+      width: 20px;
+      height: 20px;
     }
     
-    @keyframes scroll {
-      0% {
-        transform: translateX(0);
-      }
-      100% {
-        transform: translateX(calc(-150px * 7 - 24px * 7));
-      }
+    .tech-card span {
+      font-size: 0.75rem;
     }
   }
 </style>
