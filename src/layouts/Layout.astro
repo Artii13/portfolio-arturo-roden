@@ -77,8 +77,12 @@ const canonicalURL = new URL(Astro.url.pathname, Astro.site);
     
     <!-- ============================================
          SCRIPTS SIMPLIFICADOS
-         Sin GSAP - Solo Lenis + Lucide + Animaciones
+         Lenis + Lucide + GSAP + Animaciones
          ============================================ -->
+    
+    <!-- GSAP -->
+    <script is:inline src="https://cdn.jsdelivr.net/npm/gsap@3.13.0/dist/gsap.min.js"></script>
+    <script is:inline src="https://cdn.jsdelivr.net/npm/gsap@3.13.0/dist/ScrollTrigger.min.js"></script>
     
     <!-- Lenis Smooth Scroll -->
     <script is:inline src="https://unpkg.com/lenis@1.1.13/dist/lenis.min.js"></script>
