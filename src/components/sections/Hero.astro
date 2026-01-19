@@ -1,5 +1,13 @@
 ---
 import { links } from '@/data/projects';
+
+interface Props {
+  heroLabel: string;
+  heroTitle: string;
+  heroDescription: string;
+}
+
+const { heroLabel, heroTitle, heroDescription } = Astro.props;
 ---
 
 <div class="hero-minimal relative flex flex-col items-center justify-center min-h-[calc(100vh-120px)] px-6 py-20 z-10 overflow-hidden">
@@ -10,17 +18,17 @@ import { links } from '@/data/projects';
     
     <!-- Badge Superior -->
     <p class="text-[0.65rem] font-normal uppercase tracking-[0.25em] text-gray-500 mb-8">
-      <span data-blur-reveal data-delay="0" data-stagger="0.05">Diseño Web · IA · Automatización</span>
+      <span class="hero-label" set:html={heroLabel}></span>
     </p>
     
     <!-- Título Principal -->
     <h1 class="text-[clamp(2rem,5vw,4.5rem)] font-normal leading-[1.1] text-[#1a1a1a] mb-6 max-w-[800px]">
-      <span data-blur-reveal data-delay="0.3" data-stagger="0.05">Diseño la tecnología invisible que hace visibles tus resultados.</span>
+      <span class="hero-title" set:html={heroTitle}></span>
     </h1>
     
     <!-- Párrafo -->
     <p class="text-[clamp(1rem,2vw,1.25rem)] font-light leading-relaxed text-[#666] max-w-[600px] mt-6">
-      <span data-blur-reveal data-delay="1.0" data-stagger="0.02">Creo sistemas completos que integran diseño estratégico, automatización de procesos y agentes de IA. Todo bajo tu marca, todo conectado, todo funcionando 24/7.</span>
+      <span class="hero-description" set:html={heroDescription}></span>
     </p>
     
     <!-- CTA Button -->
@@ -120,7 +128,7 @@ import { links } from '@/data/projects';
     0% {
       opacity: 0;
       filter: blur(8px);
-      transform: translateY(15px);
+      transform: translateY(12px);
     }
     100% {
       opacity: 1;
@@ -161,34 +169,3 @@ import { links } from '@/data/projects';
   }
 </style>
 
-<script>
-  function initBlurReveal() {
-    const elements = document.querySelectorAll('[data-blur-reveal]');
-    
-    if (elements.length === 0) {
-      console.log('No blur-reveal elements found');
-      return;
-    }
-    
-    elements.forEach((element) => {
-      const text = element.textContent?.trim() || '';
-      if (!text) return;
-      
-      const words = text.split(/\s+/);
-      const baseDelay = parseFloat(element.getAttribute('data-delay') || '0');
-      const stagger = parseFloat(element.getAttribute('data-stagger') || '0.08');
-      
-      element.innerHTML = words.map((word, index) => {
-        const delay = baseDelay + (index * stagger);
-        return `<span class="blur-reveal-word" style="animation-delay: ${delay}s">${word}</span>`;
-      }).join(' ');
-    });
-  }
-  
-  // Ejecutar
-  if (document.readyState === 'loading') {
-    document.addEventListener('DOMContentLoaded', initBlurReveal);
-  } else {
-    initBlurReveal();
-  }
-</script>

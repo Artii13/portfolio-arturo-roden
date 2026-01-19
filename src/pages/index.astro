@@ -10,6 +10,17 @@ import Projects from '@/components/sections/Projects.astro';
 import Testimonials from '@/components/sections/Testimonials.astro';
 import CTA from '@/components/sections/CTA.astro';
 import GridBackground from '@/components/effects/GridBackground.astro';
+
+function splitWords(text: string, baseDelay: number = 0, stagger: number = 0.05) {
+  return text.split(' ').map((word, index) => {
+    const delay = baseDelay + (index * stagger);
+    return `<span class="blur-reveal-word" style="animation-delay: ${delay}s">${word}</span>`;
+  }).join(' ');
+}
+
+const heroLabel = splitWords('Diseño Web · IA · Automatización', 0, 0.06);
+const heroTitle = splitWords('Diseño la tecnología invisible que hace visibles tus resultados.', 0.4, 0.05);
+const heroDescription = splitWords('Creo sistemas completos que integran diseño estratégico, automatización de procesos y agentes de IA. Todo bajo tu marca, todo conectado, todo funcionando 24/7.', 1.2, 0.025);
 ---
 
 <Layout>
@@ -22,7 +33,7 @@ import GridBackground from '@/components/effects/GridBackground.astro';
     <!-- Sección Hero con fondo claro -->
     <div id="hero-section" class="bg-[#F5F5F3] rounded-t-[2.5rem] relative">
       <Header />
-      <Hero />
+      <Hero heroLabel={heroLabel} heroTitle={heroTitle} heroDescription={heroDescription} />
     </div>
     
     <!-- Sección Métricas - Fondo oscuro -->
