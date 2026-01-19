@@ -2,7 +2,6 @@
 import Layout from '@/layouts/Layout.astro';
 import Header from '@/components/layout/Header.astro';
 import Footer from '@/components/layout/Footer.astro';
-import Hero from '@/components/sections/Hero.astro';
 import Metrics from '@/components/sections/Metrics.astro';
 import Manifesto from '@/components/sections/Manifesto.astro';
 import TechCarousel from '@/components/sections/TechCarousel.astro';
@@ -10,20 +9,47 @@ import Projects from '@/components/sections/Projects.astro';
 import Testimonials from '@/components/sections/Testimonials.astro';
 import CTA from '@/components/sections/CTA.astro';
 import GridBackground from '@/components/effects/GridBackground.astro';
+import { links } from '@/data/projects';
 
-function splitWords(text: string, baseDelay: number, stagger: number): string {
-  return text.split(' ').map((word, index) => {
-    const delay = (baseDelay + (index * stagger)).toFixed(2);
-    return `<span class="blur-reveal-word" style="animation-delay: ${delay}s">${word}</span>`;
+// Función para dividir palabras con blur reveal
+function createBlurRevealText(text: string, baseDelay: number, stagger: number): string {
+  const words = text.split(' ');
+  return words.map((word, i) => {
+    const delay = (baseDelay + i * stagger).toFixed(3);
+    return `<span class="br-word" style="animation-delay:${delay}s">${word}</span>`;
   }).join(' ');
 }
 
-const labelHtml = splitWords('Diseño Web · IA · Automatización', 0, 0.08);
-const titleHtml = splitWords('Diseño la tecnología invisible que hace visibles tus resultados.', 0.5, 0.06);
-const descHtml = splitWords('Creo sistemas completos que integran diseño estratégico, automatización de procesos y agentes de IA. Todo bajo tu marca, todo conectado, todo funcionando 24/7.', 1.5, 0.03);
+const label = createBlurRevealText('Diseño Web · IA · Automatización', 0.1, 0.08);
+const title = createBlurRevealText('Diseño la tecnología invisible que hace visibles tus resultados.', 0.6, 0.055);
+const desc = createBlurRevealText('Creo sistemas completos que integran diseño estratégico, automatización de procesos y agentes de IA. Todo bajo tu marca, todo conectado, todo funcionando 24/7.', 1.6, 0.025);
 ---
 
 <Layout>
+  <!-- CSS crítico inline para blur reveal -->
+  <style is:inline>
+    @keyframes blurIn {
+      from {
+        opacity: 0;
+        filter: blur(12px);
+        transform: translateY(16px);
+      }
+      to {
+        opacity: 1;
+        filter: blur(0);
+        transform: translateY(0);
+      }
+    }
+    .br-word {
+      display: inline-block;
+      opacity: 0;
+      animation-name: blurIn;
+      animation-duration: 0.65s;
+      animation-timing-function: cubic-bezier(0.22, 1, 0.36, 1);
+      animation-fill-mode: forwards;
+    }
+  </style>
+
   <!-- Grid Background 3D -->
   <GridBackground />
   
@@ -33,7 +59,37 @@ const descHtml = splitWords('Creo sistemas completos que integran diseño estrat
     <!-- Sección Hero con fondo claro -->
     <div id="hero-section" class="bg-[#F5F5F3] rounded-t-[2.5rem] relative">
       <Header />
-      <Hero heroLabel={labelHtml} heroTitle={titleHtml} heroDescription={descHtml} />
+      
+      <!-- Hero Content Inline -->
+      <div class="hero-container relative flex flex-col items-center justify-center min-h-[calc(100vh-120px)] px-6 py-20 z-10 overflow-hidden">
+        <!-- Beams Effect -->
+        <div class="hero-beams absolute inset-0 z-0 pointer-events-none"></div>
+        
+        <div class="flex flex-col items-center text-center max-w-4xl relative z-10">
+          
+          <!-- Badge Superior -->
+          <p class="hero-label text-[0.65rem] font-normal uppercase tracking-[0.25em] text-gray-500 mb-8" set:html={label}></p>
+          
+          <!-- Título Principal -->
+          <h1 class="hero-title text-[clamp(2rem,5vw,4.5rem)] font-normal leading-[1.1] text-[#1a1a1a] mb-6 max-w-[800px]" set:html={title}></h1>
+          
+          <!-- Párrafo -->
+          <p class="hero-desc text-[clamp(1rem,2vw,1.25rem)] font-light leading-relaxed text-[#666] max-w-[600px] mt-6" set:html={desc}></p>
+          
+          <!-- CTA Button -->
+          <a 
+            href={links.calendar}
+            target="_blank"
+            rel="noopener noreferrer"
+            class="hero-cta br-word mt-8"
+            style="animation-delay: 2.8s"
+          >
+            Agendar ConsultorIA
+            <i data-lucide="arrow-up-right" class="w-4 h-4"></i>
+          </a>
+          
+        </div>
+      </div>
     </div>
     
     <!-- Sección Métricas - Fondo oscuro -->
@@ -70,30 +126,111 @@ const descHtml = splitWords('Creo sistemas completos que integran diseño estrat
   </main>
 </Layout>
 
-<style is:global>
-  @keyframes blurReveal {
-    0% {
-      opacity: 0;
-      filter: blur(10px);
-      transform: translateY(20px);
-    }
-    100% {
-      opacity: 1;
-      filter: blur(0);
-      transform: translateY(0);
-    }
-  }
-
-  .blur-reveal-word {
-    display: inline-block;
-    opacity: 0;
-    animation: blurReveal 0.7s cubic-bezier(0.25, 0.1, 0.25, 1) forwards;
+<style>
+  .hero-container h1 {
+    font-family: var(--font-display);
+    font-weight: 400;
   }
   
-  /* Asegurar que el hero-title y hero-description permiten el efecto */
+  .hero-container p {
+    font-family: var(--font-body);
+  }
+  
+  .hero-container a {
+    font-family: var(--font-body);
+    font-weight: 500;
+  }
+  
+  /* Beams Effect */
+  .hero-beams {
+    opacity: 0.15;
+  }
+  
+  .hero-beams::before,
+  .hero-beams::after {
+    content: '';
+    position: absolute;
+    width: 200%;
+    height: 200%;
+    background: linear-gradient(
+      45deg,
+      transparent 0%,
+      rgba(255, 107, 53, 0.1) 25%,
+      rgba(247, 147, 26, 0.15) 50%,
+      rgba(255, 179, 71, 0.1) 75%,
+      transparent 100%
+    );
+    animation: beam-rotate 18s ease-in-out infinite;
+  }
+  
+  .hero-beams::before {
+    top: -50%;
+    left: -50%;
+    transform-origin: center center;
+  }
+  
+  .hero-beams::after {
+    bottom: -50%;
+    right: -50%;
+    transform-origin: center center;
+    animation-delay: -9s;
+    background: linear-gradient(
+      -45deg,
+      transparent 0%,
+      rgba(255, 107, 53, 0.1) 25%,
+      rgba(247, 147, 26, 0.15) 50%,
+      rgba(255, 179, 71, 0.1) 75%,
+      transparent 100%
+    );
+  }
+  
+  @keyframes beam-rotate {
+    0%, 100% {
+      transform: rotate(0deg) scale(1);
+      opacity: 0.1;
+    }
+    25% {
+      transform: rotate(5deg) scale(1.1);
+      opacity: 0.2;
+    }
+    50% {
+      transform: rotate(0deg) scale(1);
+      opacity: 0.15;
+    }
+    75% {
+      transform: rotate(-5deg) scale(1.1);
+      opacity: 0.2;
+    }
+  }
+  
+  /* CTA Button */
+  .hero-cta {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.875rem 1.75rem;
+    background: #1a1a1a;
+    color: white;
+    font-size: 0.875rem;
+    font-weight: 500;
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+    border-radius: 100px;
+    text-decoration: none;
+    white-space: nowrap;
+    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+    transition: transform 0.2s ease, background 0.2s ease;
+  }
+  
+  .hero-cta:hover {
+    background: #4f46e5;
+    transform: scale(1.05);
+  }
+  
+  /* Asegurar overflow visible */
+  .hero-label,
   .hero-title,
-  .hero-description,
-  .hero-label {
+  .hero-desc {
     overflow: visible;
   }
 </style>
