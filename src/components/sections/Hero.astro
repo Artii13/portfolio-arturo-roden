@@ -1,81 +1,116 @@
 ---
-// Hero Section - con clases de animación GSAP
+import { links } from '@/data/projects';
 ---
 
-<div class="grid grid-cols-1 lg:grid-cols-2 lg:min-h-[70vh]">
+<div class="hero-minimal relative flex flex-col items-center justify-center min-h-[calc(100vh-120px)] px-6 py-20 z-10 overflow-hidden">
+  <!-- Beams Effect -->
+  <div class="hero-beams absolute inset-0 z-0 pointer-events-none"></div>
   
-  <!-- Left Column: Typography -->
-  <div class="relative flex flex-col justify-center px-8 pb-12 pt-4 lg:px-12 xl:px-20 z-10">
-    <p class="text-[0.65rem] font-semibold uppercase tracking-[0.25em] text-gray-400 mb-6 reveal-up" data-animate="fade">
+  <div class="flex flex-col items-center text-center max-w-4xl relative z-10">
+    
+    <!-- Badge Superior -->
+    <p class="text-[0.65rem] font-normal uppercase tracking-[0.25em] text-gray-500 mb-8">
       Diseño Web · IA · Automatización
     </p>
-
-    <div class="relative mb-6">
-      <h1 id="hero-name" class="hero-title text-7xl lg:text-8xl xl:text-9xl font-semibold tracking-tighter leading-[0.85] text-[#0A0A0A] origin-left">
-        ARTURO<br /><span class="mt-6 inline-block">RÓDEN</span>
-      </h1>
-      <div class="absolute -bottom-4 left-0 lg:left-2 inline-flex items-center gap-2 bg-indigo-600 text-white px-4 py-2 rounded-full transform -rotate-2 hover:rotate-0 transition-transform cursor-default z-20 shadow-xl hero-float">
-        <span class="text-[0.65rem] font-bold uppercase tracking-widest">Ibiza</span>
-      </div>
-    </div>
-
-    <div class="mt-8 max-w-lg">
-      <h2 class="hero-subtitle text-xl font-medium tracking-tight text-gray-900 mb-4 leading-snug" data-animate="fade">
-        Diseño la <span class="text-indigo-600">tecnología invisible</span> que hace visibles tus resultados.
-      </h2>
-      
-      <p class="hero-description text-base text-gray-500 leading-relaxed font-normal mb-8" data-animate="fade">
-        Creo sistemas completos que integran diseño estratégico, automatización de procesos y agentes de IA. Todo bajo tu marca, todo conectado, todo funcionando 24/7.
-      </p>
-    </div>
-  </div>
-
-  <!-- Right Column: Avatar Image -->
-  <div class="hero-image relative z-10 h-[50vh] lg:h-auto overflow-visible lg:rounded-tl-[4rem] group">
-    <!-- Avatar Image -->
-    <div class="absolute inset-0 flex items-end justify-center z-10">
-      <img 
-        src="/images/sujeto.png" 
-        alt="Arturo Róden" 
-        class="hero-avatar h-[95%] w-auto object-contain object-bottom transform group-hover:scale-105 transition-transform duration-700 relative z-10"
-        loading="eager"
-      />
-    </div>
-
-    <!-- Floating Elements - Etiquetas encima de la imagen (z-20) -->
-    <!-- Bot Icon - ARRIBA IZQUIERDA del sujeto -->
-    <div class="absolute top-20 left-8 md:left-12 lg:left-16 z-20">
-      <div class="flex items-center justify-center w-14 h-14 rounded-2xl border-2 border-indigo-500/30 backdrop-blur-md bg-white/60 text-indigo-600 animate-pulse shadow-xl">
-        <i data-lucide="bot" class="w-6 h-6"></i>
-      </div>
-    </div>
     
-    <!-- Role Badge - ABAJO DERECHA del sujeto -->
-    <div class="absolute bottom-8 right-4 md:right-8 lg:right-16 z-20">
-      <div class="px-5 py-2.5 rounded-full border-2 border-indigo-500/40 bg-white/80 backdrop-blur-xl text-indigo-900 text-[0.6rem] font-semibold uppercase tracking-widest hover:bg-white transition-colors cursor-default shadow-xl">
-        Developer · Creative · Architect
-      </div>
-    </div>
+    <!-- Título Principal -->
+    <h1 class="text-[clamp(2rem,5vw,4.5rem)] font-normal leading-[1.1] text-[#1a1a1a] mb-6 max-w-[800px]">
+      Diseño la tecnología invisible que hace visibles tus resultados.
+    </h1>
     
-    <!-- Decorative Square - DERECHA del sujeto (detrás) -->
-    <div class="absolute top-1/3 right-8 md:right-12 lg:right-20 transform -translate-y-1/2 rotate-12 z-[8]">
-      <div class="w-20 h-20 border-2 border-indigo-400/50 rounded-2xl backdrop-blur-[2px] shadow-xl"></div>
-    </div>
+    <!-- Párrafo -->
+    <p class="text-[clamp(1rem,2vw,1.25rem)] font-light leading-relaxed text-[#666] max-w-[600px] mt-6">
+      Creo sistemas completos que integran diseño estratégico, automatización de procesos y agentes de IA. Todo bajo tu marca, todo conectado, todo funcionando 24/7.
+    </p>
     
-    <!-- Terminal - ABAJO IZQUIERDA del sujeto -->
-    <div class="absolute bottom-28 left-4 md:left-8 lg:left-12 bg-gray-900/90 backdrop-blur-md text-green-400 px-4 py-3 rounded-lg font-mono text-xs border border-indigo-500/20 shadow-2xl z-20">
-      <div class="flex gap-2 mb-2">
-        <div class="w-2 h-2 rounded-full bg-red-400"></div>
-        <div class="w-2 h-2 rounded-full bg-yellow-400"></div>
-        <div class="w-2 h-2 rounded-full bg-green-400"></div>
-      </div>
-      <code>$ npm run deploy<br />✓ Build complete</code>
-    </div>
+    <!-- CTA Button -->
+    <a 
+      href={links.calendar}
+      target="_blank"
+      rel="noopener noreferrer"
+      class="inline-flex items-center gap-2 bg-[#1A1A1A] text-white text-sm font-medium uppercase tracking-widest rounded-full px-6 py-3.5 mt-8 hover:bg-indigo-600 hover:scale-105 transition-all shadow-lg"
+    >
+      Agendar ConsultorIA
+      <i data-lucide="arrow-up-right" class="w-4 h-4"></i>
+    </a>
+    
   </div>
 </div>
 
 <style>
-  .hero-avatar {
-    object-fit: contain;
+  .hero-minimal h1 {
+    font-family: var(--font-display);
+    font-weight: 400;
+  }
+  
+  .hero-minimal p {
+    font-family: var(--font-body);
+  }
+  
+  .hero-minimal a {
+    font-family: var(--font-body);
+    font-weight: 500;
+  }
+  
+  /* Beams Effect */
+  .hero-beams {
+    opacity: 0.15;
+  }
+  
+  .hero-beams::before,
+  .hero-beams::after {
+    content: '';
+    position: absolute;
+    width: 200%;
+    height: 200%;
+    background: linear-gradient(
+      45deg,
+      transparent 0%,
+      rgba(255, 107, 53, 0.1) 25%,
+      rgba(247, 147, 26, 0.15) 50%,
+      rgba(255, 179, 71, 0.1) 75%,
+      transparent 100%
+    );
+    animation: beam-rotate 18s ease-in-out infinite;
+  }
+  
+  .hero-beams::before {
+    top: -50%;
+    left: -50%;
+    transform-origin: center center;
+  }
+  
+  .hero-beams::after {
+    bottom: -50%;
+    right: -50%;
+    transform-origin: center center;
+    animation-delay: -9s;
+    background: linear-gradient(
+      -45deg,
+      transparent 0%,
+      rgba(255, 107, 53, 0.1) 25%,
+      rgba(247, 147, 26, 0.15) 50%,
+      rgba(255, 179, 71, 0.1) 75%,
+      transparent 100%
+    );
+  }
+  
+  @keyframes beam-rotate {
+    0%, 100% {
+      transform: rotate(0deg) scale(1);
+      opacity: 0.1;
+    }
+    25% {
+      transform: rotate(5deg) scale(1.1);
+      opacity: 0.2;
+    }
+    50% {
+      transform: rotate(0deg) scale(1);
+      opacity: 0.15;
+    }
+    75% {
+      transform: rotate(-5deg) scale(1.1);
+      opacity: 0.2;
+    }
   }
 </style>

@@ -20,7 +20,7 @@ import GridBackground from '@/components/effects/GridBackground.astro';
   <main id="main-container" class="w-full max-w-[1400px] rounded-[2.5rem] shadow-2xl relative flex flex-col overflow-hidden">
     
     <!-- Sección Hero con fondo claro -->
-    <div id="hero-section" class="bg-[#F5F5F3] rounded-t-[2.5rem]">
+    <div id="hero-section" class="bg-[#F5F5F3] rounded-t-[2.5rem] relative">
       <Header />
       <Hero />
     </div>
@@ -58,3 +58,36 @@ import GridBackground from '@/components/effects/GridBackground.astro';
     
   </main>
 </Layout>
+
+<script>
+  // Smooth scroll para enlaces internos (fallback si Lenis no funciona)
+  document.addEventListener('DOMContentLoaded', () => {
+    const links = document.querySelectorAll('a[href^="#"]');
+    
+    links.forEach(link => {
+      link.addEventListener('click', function(e) {
+        const href = this.getAttribute('href');
+        if (href === '#' || href === '') return;
+        
+        const target = document.querySelector(href);
+        if (target) {
+          e.preventDefault();
+          
+          // Si Lenis está disponible, usarlo
+          if (window.lenisInstance) {
+            window.lenisInstance.scrollTo(target, {
+              offset: -100,
+              duration: 1.2
+            });
+          } else {
+            // Fallback a scrollIntoView
+            target.scrollIntoView({
+              behavior: 'smooth',
+              block: 'start'
+            });
+          }
+        }
+      });
+    });
+  });
+</script>

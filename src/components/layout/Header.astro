@@ -1,5 +1,8 @@
 ---
 import { links } from '@/data/projects';
+
+const currentPath = Astro.url.pathname;
+const isHome = currentPath === '/';
 ---
 
 <header class="navbar flex items-center justify-between">
@@ -16,6 +19,11 @@ import { links } from '@/data/projects';
 
   <!-- Nav Links (hidden on mobile) -->
   <nav class="hidden lg:flex items-center gap-10">
+    {!isHome && (
+      <a href="/" class="text-[0.7rem] font-medium uppercase tracking-[0.2em] text-gray-500 hover:text-black transition-colors">
+        Inicio
+      </a>
+    )}
     <a href="#proyectos" class="text-[0.7rem] font-medium uppercase tracking-[0.2em] text-gray-500 hover:text-black transition-colors">
       Proyectos
     </a>
