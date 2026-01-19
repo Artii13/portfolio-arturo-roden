@@ -1,5 +1,6 @@
 ---
 import { links } from '@/data/projects';
+import SocialIcons from '@/components/SocialIcons.astro';
 ---
 
 <footer class="px-8 lg:px-16 py-12 border-t border-gray-200 reveal-fade">
@@ -16,24 +17,7 @@ import { links } from '@/data/projects';
     </div>
     
     <!-- Social Links -->
-    <div class="flex items-center gap-6">
-      <a 
-        href={links.instagram}
-        target="_blank"
-        rel="noopener noreferrer"
-        class="text-xs uppercase tracking-widest text-gray-500 hover:text-indigo-600 transition-colors"
-      >
-        Instagram
-      </a>
-      <a 
-        href={links.whatsapp}
-        target="_blank"
-        rel="noopener noreferrer"
-        class="text-xs uppercase tracking-widest text-gray-500 hover:text-indigo-600 transition-colors"
-      >
-        WhatsApp
-      </a>
-    </div>
+    <SocialIcons />
     
     <!-- Copyright -->
     <p class="text-xs text-gray-400 tracking-wider">
