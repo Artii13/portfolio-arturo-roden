@@ -15,12 +15,12 @@ import { links } from '@/data/projects';
     
     <!-- Título Principal -->
     <h1 class="text-[clamp(2rem,5vw,4.5rem)] font-normal leading-[1.1] text-[#1a1a1a] mb-6 max-w-[800px]">
-      <span data-blur-reveal data-delay="0.2" data-stagger="0.06">Diseño la tecnología invisible que hace visibles tus resultados.</span>
+      <span data-blur-reveal data-delay="0.3" data-stagger="0.05">Diseño la tecnología invisible que hace visibles tus resultados.</span>
     </h1>
     
     <!-- Párrafo -->
     <p class="text-[clamp(1rem,2vw,1.25rem)] font-light leading-relaxed text-[#666] max-w-[600px] mt-6">
-      <span data-blur-reveal data-delay="1.2" data-stagger="0.04">Creo sistemas completos que integran diseño estratégico, automatización de procesos y agentes de IA. Todo bajo tu marca, todo conectado, todo funcionando 24/7.</span>
+      <span data-blur-reveal data-delay="1.0" data-stagger="0.02">Creo sistemas completos que integran diseño estratégico, automatización de procesos y agentes de IA. Todo bajo tu marca, todo conectado, todo funcionando 24/7.</span>
     </p>
     
     <!-- CTA Button -->
@@ -28,7 +28,7 @@ import { links } from '@/data/projects';
       href={links.calendar}
       target="_blank"
       rel="noopener noreferrer"
-      class="blur-reveal-word inline-flex items-center gap-2 bg-[#1A1A1A] text-white text-sm font-medium uppercase tracking-widest rounded-full px-6 py-3.5 mt-8 hover:bg-indigo-600 hover:scale-105 transition-all shadow-lg"
+      class="hero-cta blur-reveal-word mt-8"
       style="animation-delay: 2.5s; opacity: 0;"
     >
       Agendar ConsultorIA
@@ -119,8 +119,8 @@ import { links } from '@/data/projects';
   @keyframes blurReveal {
     0% {
       opacity: 0;
-      filter: blur(10px);
-      transform: translateY(20px);
+      filter: blur(8px);
+      transform: translateY(15px);
     }
     100% {
       opacity: 1;
@@ -132,7 +132,32 @@ import { links } from '@/data/projects';
   .blur-reveal-word {
     display: inline-block;
     opacity: 0;
-    animation: blurReveal 0.8s ease-out forwards;
+    animation: blurReveal 0.6s ease-out forwards;
+  }
+  
+  /* CTA Button - Una línea */
+  .hero-cta {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.875rem 1.5rem;
+    background: #1a1a1a;
+    color: white;
+    font-family: var(--font-body);
+    font-weight: 500;
+    font-size: 0.875rem;
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+    border-radius: 50px;
+    text-decoration: none;
+    white-space: nowrap;
+    transition: transform 0.2s ease, background 0.2s ease;
+    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+  }
+  
+  .hero-cta:hover {
+    background: #4f46e5;
+    transform: scale(1.05);
   }
 </style>
 
@@ -140,9 +165,16 @@ import { links } from '@/data/projects';
   function initBlurReveal() {
     const elements = document.querySelectorAll('[data-blur-reveal]');
     
+    if (elements.length === 0) {
+      console.log('No blur-reveal elements found');
+      return;
+    }
+    
     elements.forEach((element) => {
-      const text = element.textContent || '';
-      const words = text.split(' ');
+      const text = element.textContent?.trim() || '';
+      if (!text) return;
+      
+      const words = text.split(/\s+/);
       const baseDelay = parseFloat(element.getAttribute('data-delay') || '0');
       const stagger = parseFloat(element.getAttribute('data-stagger') || '0.08');
       
@@ -153,10 +185,10 @@ import { links } from '@/data/projects';
     });
   }
   
-  // Ejecutar cuando el DOM esté listo
-  document.addEventListener('DOMContentLoaded', initBlurReveal);
-  // También ejecutar inmediatamente por si ya está cargado
-  if (document.readyState !== 'loading') {
+  // Ejecutar
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', initBlurReveal);
+  } else {
     initBlurReveal();
   }
 </script>
