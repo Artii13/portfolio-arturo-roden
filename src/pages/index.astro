@@ -60,32 +60,32 @@ import GridBackground from '@/components/effects/GridBackground.astro';
 </Layout>
 
 <script>
-  // Smooth scroll para enlaces internos (fallback si Lenis no funciona)
+  // Smooth scroll para enlaces internos con Lenis (TypeScript compatible)
   document.addEventListener('DOMContentLoaded', () => {
-    const links = document.querySelectorAll('a[href^="#"]');
-    
-    links.forEach(link => {
-      link.addEventListener('click', function(e) {
-        const href = this.getAttribute('href');
-        if (href === '#' || href === '') return;
+    document.querySelectorAll('a[href^="#"]').forEach((anchor) => {
+      anchor.addEventListener('click', function(e) {
+        e.preventDefault();
+        const href = (e.currentTarget as HTMLAnchorElement).getAttribute('href');
+        if (!href) return;
         
         const target = document.querySelector(href);
-        if (target) {
-          e.preventDefault();
-          
-          // Si Lenis está disponible, usarlo
-          if (window.lenisInstance) {
-            window.lenisInstance.scrollTo(target, {
-              offset: -100,
-              duration: 1.2
-            });
-          } else {
-            // Fallback a scrollIntoView
-            target.scrollIntoView({
-              behavior: 'smooth',
-              block: 'start'
-            });
-          }
+        if (!target) return;
+        
+        // Intentar usar Lenis si existe
+        const win = window as typeof window & { 
+          lenisInstance?: { 
+            scrollTo: (target: Element, options?: { offset?: number; duration?: number }) => void 
+          } 
+        };
+        
+        if (win.lenisInstance) {
+          win.lenisInstance.scrollTo(target, {
+            offset: 0,
+            duration: 1.2
+          });
+        } else {
+          // Fallback a scroll nativo suave
+          target.scrollIntoView({ behavior: 'smooth', block: 'start' });
         }
       });
     });

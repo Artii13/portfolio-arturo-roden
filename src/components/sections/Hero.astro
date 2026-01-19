@@ -10,17 +10,17 @@ import { links } from '@/data/projects';
     
     <!-- Badge Superior -->
     <p class="text-[0.65rem] font-normal uppercase tracking-[0.25em] text-gray-500 mb-8">
-      Diseño Web · IA · Automatización
+      <span data-blur-reveal data-delay="0" data-stagger="0.05">Diseño Web · IA · Automatización</span>
     </p>
     
     <!-- Título Principal -->
     <h1 class="text-[clamp(2rem,5vw,4.5rem)] font-normal leading-[1.1] text-[#1a1a1a] mb-6 max-w-[800px]">
-      Diseño la tecnología invisible que hace visibles tus resultados.
+      <span data-blur-reveal data-delay="0.2" data-stagger="0.06">Diseño la tecnología invisible que hace visibles tus resultados.</span>
     </h1>
     
     <!-- Párrafo -->
     <p class="text-[clamp(1rem,2vw,1.25rem)] font-light leading-relaxed text-[#666] max-w-[600px] mt-6">
-      Creo sistemas completos que integran diseño estratégico, automatización de procesos y agentes de IA. Todo bajo tu marca, todo conectado, todo funcionando 24/7.
+      <span data-blur-reveal data-delay="1.2" data-stagger="0.04">Creo sistemas completos que integran diseño estratégico, automatización de procesos y agentes de IA. Todo bajo tu marca, todo conectado, todo funcionando 24/7.</span>
     </p>
     
     <!-- CTA Button -->
@@ -28,7 +28,8 @@ import { links } from '@/data/projects';
       href={links.calendar}
       target="_blank"
       rel="noopener noreferrer"
-      class="inline-flex items-center gap-2 bg-[#1A1A1A] text-white text-sm font-medium uppercase tracking-widest rounded-full px-6 py-3.5 mt-8 hover:bg-indigo-600 hover:scale-105 transition-all shadow-lg"
+      class="blur-reveal-word inline-flex items-center gap-2 bg-[#1A1A1A] text-white text-sm font-medium uppercase tracking-widest rounded-full px-6 py-3.5 mt-8 hover:bg-indigo-600 hover:scale-105 transition-all shadow-lg"
+      style="animation-delay: 2.5s; opacity: 0;"
     >
       Agendar ConsultorIA
       <i data-lucide="arrow-up-right" class="w-4 h-4"></i>
@@ -113,4 +114,49 @@ import { links } from '@/data/projects';
       opacity: 0.2;
     }
   }
+  
+  /* Blur Reveal Animation */
+  @keyframes blurReveal {
+    0% {
+      opacity: 0;
+      filter: blur(10px);
+      transform: translateY(20px);
+    }
+    100% {
+      opacity: 1;
+      filter: blur(0);
+      transform: translateY(0);
+    }
+  }
+  
+  .blur-reveal-word {
+    display: inline-block;
+    opacity: 0;
+    animation: blurReveal 0.8s ease-out forwards;
+  }
 </style>
+
+<script>
+  function initBlurReveal() {
+    const elements = document.querySelectorAll('[data-blur-reveal]');
+    
+    elements.forEach((element) => {
+      const text = element.textContent || '';
+      const words = text.split(' ');
+      const baseDelay = parseFloat(element.getAttribute('data-delay') || '0');
+      const stagger = parseFloat(element.getAttribute('data-stagger') || '0.08');
+      
+      element.innerHTML = words.map((word, index) => {
+        const delay = baseDelay + (index * stagger);
+        return `<span class="blur-reveal-word" style="animation-delay: ${delay}s">${word}</span>`;
+      }).join(' ');
+    });
+  }
+  
+  // Ejecutar cuando el DOM esté listo
+  document.addEventListener('DOMContentLoaded', initBlurReveal);
+  // También ejecutar inmediatamente por si ya está cargado
+  if (document.readyState !== 'loading') {
+    initBlurReveal();
+  }
+</script>
