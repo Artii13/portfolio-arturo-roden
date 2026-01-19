@@ -123,25 +123,6 @@ const { heroLabel, heroTitle, heroDescription } = Astro.props;
     }
   }
   
-  /* Blur Reveal Animation */
-  @keyframes blurReveal {
-    0% {
-      opacity: 0;
-      filter: blur(8px);
-      transform: translateY(12px);
-    }
-    100% {
-      opacity: 1;
-      filter: blur(0);
-      transform: translateY(0);
-    }
-  }
-  
-  .blur-reveal-word {
-    display: inline-block;
-    opacity: 0;
-    animation: blurReveal 0.6s ease-out forwards;
-  }
   
   /* CTA Button - Una línea */
   .hero-cta {

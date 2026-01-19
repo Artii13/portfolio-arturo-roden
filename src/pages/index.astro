@@ -11,16 +11,16 @@ import Testimonials from '@/components/sections/Testimonials.astro';
 import CTA from '@/components/sections/CTA.astro';
 import GridBackground from '@/components/effects/GridBackground.astro';
 
-function splitWords(text: string, baseDelay: number = 0, stagger: number = 0.05) {
+function splitWords(text: string, baseDelay: number, stagger: number): string {
   return text.split(' ').map((word, index) => {
-    const delay = baseDelay + (index * stagger);
+    const delay = (baseDelay + (index * stagger)).toFixed(2);
     return `<span class="blur-reveal-word" style="animation-delay: ${delay}s">${word}</span>`;
   }).join(' ');
 }
 
-const heroLabel = splitWords('Diseño Web · IA · Automatización', 0, 0.06);
-const heroTitle = splitWords('Diseño la tecnología invisible que hace visibles tus resultados.', 0.4, 0.05);
-const heroDescription = splitWords('Creo sistemas completos que integran diseño estratégico, automatización de procesos y agentes de IA. Todo bajo tu marca, todo conectado, todo funcionando 24/7.', 1.2, 0.025);
+const labelHtml = splitWords('Diseño Web · IA · Automatización', 0, 0.08);
+const titleHtml = splitWords('Diseño la tecnología invisible que hace visibles tus resultados.', 0.5, 0.06);
+const descHtml = splitWords('Creo sistemas completos que integran diseño estratégico, automatización de procesos y agentes de IA. Todo bajo tu marca, todo conectado, todo funcionando 24/7.', 1.5, 0.03);
 ---
 
 <Layout>
@@ -33,7 +33,7 @@ const heroDescription = splitWords('Creo sistemas completos que integran diseño
     <!-- Sección Hero con fondo claro -->
     <div id="hero-section" class="bg-[#F5F5F3] rounded-t-[2.5rem] relative">
       <Header />
-      <Hero heroLabel={heroLabel} heroTitle={heroTitle} heroDescription={heroDescription} />
+      <Hero heroLabel={labelHtml} heroTitle={titleHtml} heroDescription={descHtml} />
     </div>
     
     <!-- Sección Métricas - Fondo oscuro -->
@@ -69,6 +69,34 @@ const heroDescription = splitWords('Creo sistemas completos que integran diseño
     
   </main>
 </Layout>
+
+<style is:global>
+  @keyframes blurReveal {
+    0% {
+      opacity: 0;
+      filter: blur(10px);
+      transform: translateY(20px);
+    }
+    100% {
+      opacity: 1;
+      filter: blur(0);
+      transform: translateY(0);
+    }
+  }
+
+  .blur-reveal-word {
+    display: inline-block;
+    opacity: 0;
+    animation: blurReveal 0.7s cubic-bezier(0.25, 0.1, 0.25, 1) forwards;
+  }
+  
+  /* Asegurar que el hero-title y hero-description permiten el efecto */
+  .hero-title,
+  .hero-description,
+  .hero-label {
+    overflow: visible;
+  }
+</style>
 
 <script>
   // Smooth scroll para enlaces internos con Lenis (TypeScript compatible)
