@@ -1,0 +1,28 @@
+---
+import Layout from '@/layouts/Layout.astro';
+import Header from '@/components/layout/Header.astro';
+import Footer from '@/components/layout/Footer.astro';
+import Hero from '@/components/sections/Hero.astro';
+import GridBackground from '@/components/effects/GridBackground.astro';
+---
+
+<Layout>
+  <!-- Grid Background 3D -->
+  <GridBackground />
+  
+  <!-- Main Container -->
+  <main id="main-container" class="w-full max-w-[1400px] rounded-[2.5rem] shadow-2xl relative flex flex-col overflow-hidden">
+    
+    <!-- Sección Hero con fondo claro -->
+    <div id="hero-section" class="bg-[#F5F5F3] rounded-t-[2.5rem]">
+      <Header />
+      <Hero />
+    </div>
+    
+    <!-- Footer -->
+    <div id="footer-section" class="bg-[#F5F5F3]">
+      <Footer />
+    </div>
+    
+  </main>
+</Layout>
