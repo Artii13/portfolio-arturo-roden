@@ -11,42 +11,56 @@ import CTA from '@/components/sections/CTA.astro';
 import GridBackground from '@/components/effects/GridBackground.astro';
 import { links } from '@/data/projects';
 
-// Función para dividir palabras con blur reveal
-function createBlurRevealText(text: string, baseDelay: number, stagger: number): string {
-  const words = text.split(' ');
-  return words.map((word, i) => {
-    const delay = (baseDelay + i * stagger).toFixed(3);
-    return `<span class="br-word" style="animation-delay:${delay}s">${word}</span>`;
+// ============================================
+// BLUR REVEAL - Función para crear spans animados
+// Los delays empiezan en 3.1s para aparecer DESPUÉS del preloader (2.9s)
+// ============================================
+function createBlurWords(text: string, baseDelay: number, stagger: number): string {
+  return text.split(' ').map((word, i) => {
+    const delay = (baseDelay + (i * stagger)).toFixed(2);
+    return `<span class="blur-word" style="animation-delay: ${delay}s">${word}</span>`;
   }).join(' ');
 }
 
-const label = createBlurRevealText('Diseño Web · IA · Automatización', 0.1, 0.08);
-const title = createBlurRevealText('Diseño la tecnología invisible que hace visibles tus resultados.', 0.6, 0.055);
-const desc = createBlurRevealText('Creo sistemas completos que integran diseño estratégico, automatización de procesos y agentes de IA. Todo bajo tu marca, todo conectado, todo funcionando 24/7.', 1.6, 0.025);
+// Delays ajustados: 3.1s base para empezar después del preloader
+const labelWords = createBlurWords('Diseño Web · IA · Automatización', 3.1, 0.08);
+const titleWords = createBlurWords('Diseño la tecnología invisible que hace visibles tus resultados.', 3.6, 0.05);
+const descWords = createBlurWords('Creo sistemas completos que integran diseño estratégico, automatización de procesos y agentes de IA. Todo bajo tu marca, todo conectado, todo funcionando 24/7.', 4.3, 0.02);
 ---
 
 <Layout>
-  <!-- CSS crítico inline para blur reveal -->
+  <!-- CSS CRÍTICO INLINE - Garantiza que esté en el HTML final -->
   <style is:inline>
-    @keyframes blurIn {
-      from {
+    /* ============================================
+       BLUR REVEAL ANIMATION
+       ============================================ */
+    @keyframes blurReveal {
+      0% {
         opacity: 0;
         filter: blur(12px);
-        transform: translateY(16px);
+        transform: translateY(20px);
       }
-      to {
+      100% {
         opacity: 1;
-        filter: blur(0);
-        transform: translateY(0);
+        filter: blur(0px);
+        transform: translateY(0px);
       }
     }
-    .br-word {
+    
+    .blur-word {
       display: inline-block;
       opacity: 0;
-      animation-name: blurIn;
-      animation-duration: 0.65s;
-      animation-timing-function: cubic-bezier(0.22, 1, 0.36, 1);
+      animation-name: blurReveal;
+      animation-duration: 0.7s;
+      animation-timing-function: cubic-bezier(0.25, 0.46, 0.45, 0.94);
       animation-fill-mode: forwards;
+    }
+    
+    /* CTA también animado */
+    .blur-word-cta {
+      display: inline-block;
+      opacity: 0;
+      animation: blurReveal 0.7s cubic-bezier(0.25, 0.46, 0.45, 0.94) forwards;
     }
   </style>
 
@@ -60,36 +74,37 @@ const desc = createBlurRevealText('Creo sistemas completos que integran diseño 
     <div id="hero-section" class="bg-[#F5F5F3] rounded-t-[2.5rem] relative">
       <Header />
       
-      <!-- Hero Content Inline -->
-      <div class="hero-container relative flex flex-col items-center justify-center min-h-[calc(100vh-120px)] px-6 py-20 z-10 overflow-hidden">
+      <!-- HERO CONTENT - Directamente aquí, sin componentes -->
+      <section class="hero-section relative flex flex-col items-center justify-center min-h-[calc(100vh-120px)] px-6 py-20 z-10 overflow-hidden">
         <!-- Beams Effect -->
         <div class="hero-beams absolute inset-0 z-0 pointer-events-none"></div>
         
-        <div class="flex flex-col items-center text-center max-w-4xl relative z-10">
+        <div class="hero-content flex flex-col items-center text-center max-w-4xl relative z-10">
           
           <!-- Badge Superior -->
-          <p class="hero-label text-[0.65rem] font-normal uppercase tracking-[0.25em] text-gray-500 mb-8" set:html={label}></p>
+          <p class="hero-label" set:html={labelWords}></p>
           
           <!-- Título Principal -->
-          <h1 class="hero-title text-[clamp(2rem,5vw,4.5rem)] font-normal leading-[1.1] text-[#1a1a1a] mb-6 max-w-[800px]" set:html={title}></h1>
+          <h1 class="hero-title" set:html={titleWords}></h1>
           
-          <!-- Párrafo -->
-          <p class="hero-desc text-[clamp(1rem,2vw,1.25rem)] font-light leading-relaxed text-[#666] max-w-[600px] mt-6" set:html={desc}></p>
+          <!-- Descripción -->
+          <p class="hero-description" set:html={descWords}></p>
           
           <!-- CTA Button -->
-          <a 
-            href={links.calendar}
-            target="_blank"
-            rel="noopener noreferrer"
-            class="hero-cta br-word mt-8"
-            style="animation-delay: 2.8s"
-          >
-            Agendar ConsultorIA
-            <i data-lucide="arrow-up-right" class="w-4 h-4"></i>
-          </a>
+          <div class="blur-word-cta" style="animation-delay: 5.5s">
+            <a 
+              href={links.calendar}
+              target="_blank"
+              rel="noopener noreferrer"
+              class="cta-button"
+            >
+              Agendar ConsultorIA
+              <i data-lucide="arrow-up-right" class="w-4 h-4"></i>
+            </a>
+          </div>
           
         </div>
-      </div>
+      </section>
     </div>
     
     <!-- Sección Métricas - Fondo oscuro -->
@@ -127,21 +142,82 @@ const desc = createBlurRevealText('Creo sistemas completos que integran diseño 
 </Layout>
 
 <style>
-  .hero-container h1 {
-    font-family: var(--font-display);
-    font-weight: 400;
+  /* ============================================
+     HERO STYLES
+     ============================================ */
+  
+  .hero-section {
+    min-height: calc(100vh - 120px);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 2rem;
+    position: relative;
   }
   
-  .hero-container p {
+  .hero-content {
+    max-width: 800px;
+    text-align: center;
+  }
+  
+  .hero-label {
+    font-size: 0.65rem;
     font-family: var(--font-body);
+    font-weight: 400;
+    letter-spacing: 0.25em;
+    text-transform: uppercase;
+    color: #888;
+    margin-bottom: 2rem;
   }
   
-  .hero-container a {
+  .hero-title {
+    font-family: var(--font-display);
+    font-size: clamp(2rem, 5vw, 4.5rem);
+    font-weight: 400;
+    line-height: 1.1;
+    color: #1a1a1a;
+    margin-bottom: 1.5rem;
+    max-width: 800px;
+  }
+  
+  .hero-description {
+    font-family: var(--font-body);
+    font-size: clamp(1rem, 2vw, 1.25rem);
+    font-weight: 300;
+    line-height: 1.7;
+    color: #666;
+    max-width: 600px;
+    margin: 1.5rem auto 2rem;
+  }
+  
+  .cta-button {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 1rem 2rem;
+    background: linear-gradient(135deg, #1a1a1a, #333);
+    color: white;
     font-family: var(--font-body);
     font-weight: 500;
+    font-size: 0.875rem;
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+    text-decoration: none;
+    border-radius: 100px;
+    white-space: nowrap;
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.15);
   }
   
-  /* Beams Effect */
+  .cta-button:hover {
+    transform: translateY(-2px) scale(1.02);
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.2);
+  }
+  
+  /* ============================================
+     BEAMS EFFECT
+     ============================================ */
+  
   .hero-beams {
     opacity: 0.15;
   }
@@ -202,41 +278,10 @@ const desc = createBlurRevealText('Creo sistemas completos que integran diseño 
       opacity: 0.2;
     }
   }
-  
-  /* CTA Button */
-  .hero-cta {
-    display: inline-flex;
-    align-items: center;
-    gap: 0.5rem;
-    padding: 0.875rem 1.75rem;
-    background: #1a1a1a;
-    color: white;
-    font-size: 0.875rem;
-    font-weight: 500;
-    letter-spacing: 0.05em;
-    text-transform: uppercase;
-    border-radius: 100px;
-    text-decoration: none;
-    white-space: nowrap;
-    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
-    transition: transform 0.2s ease, background 0.2s ease;
-  }
-  
-  .hero-cta:hover {
-    background: #4f46e5;
-    transform: scale(1.05);
-  }
-  
-  /* Asegurar overflow visible */
-  .hero-label,
-  .hero-title,
-  .hero-desc {
-    overflow: visible;
-  }
 </style>
 
 <script>
-  // Smooth scroll para enlaces internos con Lenis (TypeScript compatible)
+  // Smooth scroll para enlaces internos
   document.addEventListener('DOMContentLoaded', () => {
     document.querySelectorAll('a[href^="#"]').forEach((anchor) => {
       anchor.addEventListener('click', function(e) {
@@ -247,20 +292,16 @@ const desc = createBlurRevealText('Creo sistemas completos que integran diseño 
         const target = document.querySelector(href);
         if (!target) return;
         
-        // Intentar usar Lenis si existe
+        // Usar Lenis si existe, sino scroll nativo
         const win = window as typeof window & { 
-          lenisInstance?: { 
+          lenis?: { 
             scrollTo: (target: Element, options?: { offset?: number; duration?: number }) => void 
           } 
         };
         
-        if (win.lenisInstance) {
-          win.lenisInstance.scrollTo(target, {
-            offset: 0,
-            duration: 1.2
-          });
+        if (win.lenis) {
+          win.lenis.scrollTo(target, { offset: 0, duration: 1.2 });
         } else {
-          // Fallback a scroll nativo suave
           target.scrollIntoView({ behavior: 'smooth', block: 'start' });
         }
       });
