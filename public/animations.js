@@ -147,7 +147,7 @@
     
     // Selectores para elementos animables
     var elements = document.querySelectorAll(
-      '.reveal-up, .reveal-fade, .reveal-stagger, [data-animate="fade"], [data-animate="stagger"]'
+      '.reveal-up, .reveal-fade, .reveal-scale, .reveal-stagger, [data-animate="fade"], [data-animate="stagger"]'
     );
     
     log('🎨 Elementos para fade-in: ' + elements.length);

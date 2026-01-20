@@ -24,8 +24,10 @@ function createBlurWords(text: string, baseDelay: number, stagger: number): stri
 
 // Delays ajustados: 3.1s base para empezar después del preloader
 const labelWords = createBlurWords('Diseño Web · IA · Automatización', 3.1, 0.08);
-const titleWords = createBlurWords('Diseño la tecnología invisible que hace visibles tus resultados.', 3.6, 0.05);
-const descWords = createBlurWords('Creo sistemas completos que integran diseño estratégico, automatización de procesos y agentes de IA. Todo bajo tu marca, todo conectado, todo funcionando 24/7.', 4.3, 0.02);
+// Título dividido: "Diseño" + [TYPEWRITER] + "que hace visibles tus resultados."
+const titleStart = createBlurWords('Diseño', 3.6, 0.05);
+const titleEnd = createBlurWords('que hace visibles tus resultados.', 4.4, 0.05);
+const descWords = createBlurWords('Creo sistemas completos que integran diseño estratégico, automatización de procesos y agentes de IA. Todo bajo tu marca, todo conectado, todo funcionando 24/7.', 5.2, 0.02);
 ---
 
 <Layout>
@@ -62,6 +64,98 @@ const descWords = createBlurWords('Creo sistemas completos que integran diseño 
       opacity: 0;
       animation: blurReveal 0.7s cubic-bezier(0.25, 0.46, 0.45, 0.94) forwards;
     }
+    
+    /* ============================================
+       HERO TITLE - 2 LÍNEAS FIJAS OBLIGATORIAS
+       ============================================ */
+    .hero-title {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 0.15em;
+      text-align: center;
+      font-family: var(--font-display, 'Fraunces', serif);
+      font-size: clamp(1.8rem, 4.5vw, 3.5rem);
+      font-weight: 400;
+      line-height: 1.2;
+      color: #1a1a1a;
+      margin-bottom: 1.5rem;
+      max-width: 100%;
+    }
+    
+    .hero-title-line1,
+    .hero-title-line2 {
+      display: block;
+      width: 100%;
+      white-space: nowrap; /* CRÍTICO: Evita que la línea se rompa */
+    }
+    
+    /* Contenedor del typewriter con ancho FIJO */
+    .typewriter-wrapper {
+      display: inline-block;
+      min-width: 420px; /* Ancho basado en "la tecnología invisible" */
+      text-align: left;
+      vertical-align: baseline;
+    }
+    
+    .typewriter-text {
+      display: inline;
+    }
+    
+    .typewriter-cursor {
+      display: inline-block;
+      margin-left: 2px;
+      font-weight: 300;
+      color: #1a1a1a;
+      animation: cursorBlink 530ms infinite;
+    }
+    
+    /* Responsive: móvil - permitir wrap natural */
+    @media (max-width: 640px) {
+      .hero-title {
+        font-size: clamp(1.4rem, 6vw, 1.8rem);
+        gap: 0.3em;
+      }
+      
+      .hero-title-line1,
+      .hero-title-line2 {
+        white-space: normal; /* En móvil permitir wrap */
+      }
+      
+      .typewriter-wrapper {
+        min-width: 180px;
+        display: inline-block;
+      }
+    }
+    
+    /* Responsive: tablet */
+    @media (min-width: 641px) and (max-width: 900px) {
+      .hero-title {
+        font-size: clamp(1.6rem, 4vw, 2.2rem);
+      }
+      
+      .typewriter-wrapper {
+        min-width: 280px;
+      }
+    }
+    
+    /* Desktop grande */
+    @media (min-width: 1200px) {
+      .typewriter-wrapper {
+        min-width: 480px;
+      }
+    }
+    
+    @keyframes cursorBlink {
+      0%, 100% { opacity: 1; }
+      50% { opacity: 0; }
+    }
+    
+    /* Ocultar cursor mientras se hace blur reveal */
+    .typewriter-text:not(.revealed) + .typewriter-cursor {
+      opacity: 0;
+      animation: none;
+    }
   </style>
 
   <!-- Grid Background 3D -->
@@ -84,8 +178,17 @@ const descWords = createBlurWords('Creo sistemas completos que integran diseño 
           <!-- Badge Superior -->
           <p class="hero-label" set:html={labelWords}></p>
           
-          <!-- Título Principal -->
-          <h1 class="hero-title" set:html={titleWords}></h1>
+          <!-- Título Principal con Typewriter - 2 líneas fijas -->
+          <h1 class="hero-title">
+            <span class="hero-title-line1">
+              <span set:html={titleStart}></span>
+              <span class="typewriter-wrapper">
+                <span id="typewriter-text" class="typewriter-text blur-word" style="animation-delay: 3.65s">la tecnología invisible</span>
+                <span class="typewriter-cursor">▍</span>
+              </span>
+            </span>
+            <span class="hero-title-line2" set:html={titleEnd}></span>
+          </h1>
           
           <!-- Descripción -->
           <p class="hero-description" set:html={descWords}></p>
@@ -156,8 +259,15 @@ const descWords = createBlurWords('Creo sistemas completos que integran diseño 
   }
   
   .hero-content {
-    max-width: 800px;
+    max-width: 900px;
     text-align: center;
+    padding: 0 2rem;
+  }
+  
+  @media (min-width: 1024px) {
+    .hero-content {
+      max-width: 1000px;
+    }
   }
   
   .hero-label {
@@ -170,15 +280,7 @@ const descWords = createBlurWords('Creo sistemas completos que integran diseño 
     margin-bottom: 2rem;
   }
   
-  .hero-title {
-    font-family: var(--font-display);
-    font-size: clamp(2rem, 5vw, 4.5rem);
-    font-weight: 400;
-    line-height: 1.1;
-    color: #1a1a1a;
-    margin-bottom: 1.5rem;
-    max-width: 800px;
-  }
+  /* .hero-title está definido en <style is:inline> para 2 líneas fijas */
   
   .hero-description {
     font-family: var(--font-body);
@@ -307,4 +409,80 @@ const descWords = createBlurWords('Creo sistemas completos que integran diseño 
       });
     });
   });
+</script>
+
+<script>
+  // ============================================
+  // TYPEWRITER EFFECT - Premium animated text
+  // ============================================
+  (function() {
+    const phrases = [
+      'la tecnología invisible',
+      'tu Ecosistema Digital',
+      'tu Web',
+      'tu Agente de IA'
+    ];
+    
+    const config = {
+      typingSpeed: 65,        // ms por carácter al escribir
+      deletingSpeed: 45,      // ms por carácter al borrar
+      pauseAfterTyping: 1000, // pausa después de escribir
+      pauseAfterDeleting: 300, // pausa después de borrar
+      startDelay: 5500        // delay inicial (después del blur reveal del título)
+    };
+    
+    let currentPhraseIndex = 0;
+    let currentCharIndex = phrases[0].length;
+    let isDeleting = false;
+    let hasStarted = false;
+    
+    const typewriterElement = document.getElementById('typewriter-text') as HTMLElement | null;
+    if (!typewriterElement) return;
+    
+    // Marcar como revealed después del blur reveal
+    setTimeout(() => {
+      typewriterElement.classList.add('revealed');
+    }, 4350); // 3.65s delay + 0.7s duration
+    
+    function type() {
+      if (!hasStarted || !typewriterElement) return;
+      
+      const currentPhrase = phrases[currentPhraseIndex];
+      
+      if (!isDeleting) {
+        // Escribiendo
+        if (currentCharIndex < currentPhrase.length) {
+          typewriterElement.textContent = currentPhrase.slice(0, currentCharIndex + 1);
+          currentCharIndex++;
+          setTimeout(type, config.typingSpeed);
+        } else {
+          // Terminó de escribir, pausar y luego borrar
+          setTimeout(() => {
+            isDeleting = true;
+            type();
+          }, config.pauseAfterTyping);
+        }
+      } else {
+        // Borrando
+        if (currentCharIndex > 0) {
+          typewriterElement.textContent = currentPhrase.slice(0, currentCharIndex - 1);
+          currentCharIndex--;
+          setTimeout(type, config.deletingSpeed);
+        } else {
+          // Terminó de borrar, pasar a siguiente frase
+          isDeleting = false;
+          currentPhraseIndex = (currentPhraseIndex + 1) % phrases.length;
+          setTimeout(type, config.pauseAfterDeleting);
+        }
+      }
+    }
+    
+    // Iniciar después del delay
+    setTimeout(() => {
+      hasStarted = true;
+      // Empezar borrando la primera frase
+      isDeleting = true;
+      type();
+    }, config.startDelay);
+  })();
 </script>
